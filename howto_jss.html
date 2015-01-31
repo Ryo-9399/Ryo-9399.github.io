@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MasaoJSS使用方法まとめ</title>
+
+<style type="text/css">
+body{
+	padding : 9px;
+	background : white;
+	color : black;
+	font-size : 16px;
+}
+div{
+	margin-left : 20px;
+	margin-right : 20px;
+	margin-bottom : 30px;
+	border : dashed darkgray 2px;
+	padding : 12px;
+}
+p{
+	text-indent : 30px;
+}
+pre{
+	margin : 3px;
+	border : double gray 1px;
+	padding : 3px;
+	color : gray;
+	font-size : 14px;
+	overflow : scroll;
+}
+table{
+	width : 100%;
+	border-collapse : collapse;
+	border : solid darkgray 3px;
+}
+td{
+	border : solid darkgray 1px;
+}
+th{
+	border : solid darkgray 1px;
+	border-bottom : double darkgray 3px;
+	background-color : #FDF;
+}
+table.table_arguments td:nth-child(1){
+	width : 20%;
+}
+table.table_arguments td:nth-child(2){
+	width : 30%;
+}
+table.table_methods td:nth-child(1){
+	width : 25%;
+}
+table.table_methods td:nth-child(2){
+	width : 20%;
+}
+table.table_methods td:nth-child(3){
+	width : 18%;
+}
+.type_number{
+	background-color : #EEF;
+}
+.type_boolean{
+	background-color : #EFE;
+}
+.type_string{
+	background-color : #FEE;
+}
+.type_other{
+	background-color : #FFD;
+}
+span.important{
+	color : blue;
+	background-color : #EEF;
+}
+span.most_important{
+	color : red;
+	background-color : #FEE;
+}
+span.gray{
+	color : gray;
+	font-weight : normal;
+}
+span.attention{
+	text-decoration : underline;
+	font-weight : bold;
+}
+span.comment{
+	color : green;
+}
+var{
+	font-family : serif;
+	font-style : italic;
+}
+del{
+	opacity : 0.3;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>MasaoJSS使用方法まとめ</h1>
+
+<p>
+ここではJS版まさおコンストラクションで使用できる拡張JavaScriptの使用法と、原作との挙動の違いについてまとめます。
+</p>
+
+<div>
+<h2>目次</h2>
+<ul>
+<li><a href="#how_to_use">使用方法</a></li>
+<li><a href="#what_to_arguments">コールバック関数の引数について</a></li>
+<li><a href="#methods_of_ap">第５引数（ap）で使用できるメソッド一覧</a>
+	<ul>
+	<li><a href="#methods_game_system">ゲームシステム</a></li>
+	<li><a href="#methods_scroll">スクロール制御</a></li>
+	<li><a href="#methods_image">画像読み込み・チップ生成</a></li>
+	<li><a href="#methods_draw_system">基本表示設定</a></li>
+	<li><a href="#methods_first_person_position">主人公の位置・動き</a></li>
+	<li><a href="#methods_first_person_states">主人公の状態・動作・特技</a></li>
+	<li><a href="#methods_equipment">主人公の装備</a></li>
+	<li><a href="#methods_enemy">敵と攻撃</a></li>
+	<li><a href="#methods_boss">ボス</a></li>
+	<li><a href="#methods_parameters">各種キャラクターのパラメータ</a></li>
+	<li><a href="#methods_hit">ファイヤーボール・しっぽの当たり判定</a></li>
+	<li><a href="#methods_show">簡易表示</a></li>
+	<li><a href="#methods_gauge">ゲージ</a></li>
+	<li><a href="#methods_mapchip">パーツ配置・取得</a></li>
+	<li><a href="#methods_keyboard">キー入力系</a></li>
+	<li><a href="#methods_yuka">床オブジェクト</a></li>
+	<li><a href="#methods_sound">音利用</a></li>
+	<li><a href="#methods_offscreen">オフスクリーン関係</a></li>
+	<li><a href="#methods_cannot_use">使用不可能メソッド</a></li>
+	</ul>
+</li>
+<li><a href="#methods_of_offscreen">第１引数（Offscreen_g）で使用できるメソッド一覧</a></li>
+</ul>
+</div>
+
+
+<div>
+<h2><a name="how_to_use">使用方法</a></h2>
+<p>
+まさおコンストラクションに必要なJSファイルを読み込み、!ReadMe.txtに記載した方法で既存のアプレットを置換するか、新規にゲームを作成します。<br>
+その際、引数の最後にオプションオブジェクトを追加し、そのオブジェクトの<var>userJSCallback</var>メンバにuserJS関数を登録します。
+</p>
+<pre><code><span class="comment">&lt;!-- 使用例１　原作のuserJSを使用する場合 --&gt;</span>
+<span class="important">&lt;script type=&quot;text/javascript&quot; src=&quot;CanvasMasao.js&quot;&gt;&lt;/script&gt;</span>
+&lt;script type=&quot;text/javascript&quot;&gt;
+new CanvasMasao.Game(
+	{
+		&quot;map0-0&quot; : &quot;............................................................&quot;,
+		（パラメータ群を記述）
+	}, &quot;hoge&quot;<span class="important">, { <span class="important">userJSCallback : <span class="attention">userJS</span></span> }</span>
+);
+
+<span class="most_important">function <span class="attention">userJS</span>(Offscreen_g, mode, view_x, view_y, ap)
+{
+	<span class="gray">（挙動を記述）</span>
+}</span>
+&lt;/script&gt;
+</code></pre>
+<pre><code><span class="comment">&lt;!-- 使用例２　無名関数を使用する場合 --&gt;</span>
+<span class="important">&lt;script type=&quot;text/javascript&quot; src=&quot;CanvasMasao.js&quot;&gt;&lt;/script&gt;</span>
+&lt;script type=&quot;text/javascript&quot;&gt;
+new CanvasMasao.Game(
+	{
+		&quot;map0-0&quot; : &quot;............................................................&quot;,
+		（パラメータ群）
+	}, &quot;hoge&quot;<span class="important">,
+	{
+		<span class="important">userJSCallback : <span class="most_important"><span class="attention">function (Offscreen_g, mode, view_x, view_y, ap)</span>
+		{
+			<span class="gray">（挙動）</span>
+		}</span></span>
+	}</span>
+);
+&lt;/script&gt;
+</code></pre>
+<pre><code><span class="comment">&lt;!-- 使用例３　クロージャを使用する場合 --&gt;</span>
+<span class="important">&lt;script type=&quot;text/javascript&quot; src=&quot;CanvasMasao.js&quot;&gt;&lt;/script&gt;</span>
+&lt;script type=&quot;text/javascript&quot;&gt;
+new CanvasMasao.Game(
+	{
+		&quot;map0-0&quot; : &quot;............................................................&quot;,
+		（パラメータ群）
+	}, &quot;hoge&quot;<span class="important">,
+	{ 
+		userJSCallback : <span class="most_important">(function ()
+		{
+			<span class="comment">// 変数や関数の定義はこの中で行う</span>
+			<span class="gray">var x, y;</span>
+
+			<span class="comment attention">// コールバック関数を返す（渡す）</span>
+			<span class="attention">return function (Offscreen_g, mode, view_x, view_y, ap)</span>
+			{
+				<span class="gray">（挙動）</span>
+			}
+		})()</span>
+	}</span>
+);
+&lt;/script&gt;
+</code></pre>
+
+<p>
+挙動の記述についてですが、原作と大きく異なるのは、<code>Applet1 = document.getElementById(&quot;hoge&quot;);</code>と記述してもアプレットを取得できないことです。そこで、<span class="attention"><var>userJSCallback</var>メンバに登録した関数の第５引数に、アプレットにあたるオブジェクトを渡しています</span>。原作のソースを引き継ぐ場合は注意してください。この第５引数から、各種メソッドを呼び出すことができます。
+</p>
+<pre><code><span class="comment">/* 使用例１　初回起動時に、アプレットオブジェクトをグローバルに格納して参照する（原作での主な使用法） */</span>
+（前略）
+var init_f = false;
+var <span class="important">Applet1</span> = null;
+function userJS(Offscreen_g, mode, view_x, view_y, <span class="most_important attention">ap</span>)
+{
+	if(!init_f) <span class="important">Applet1</span> <span class="most_important">= <span class="attention">ap</span>;</span>
+	……
+}
+function userGameJS(Offscreen_g, view_x, view_y)
+{
+	<span class="important">Applet1</span>.addScore(100);
+}
+</code></pre>
+
+<p>
+上の使用例１は、原作で主に使用されていた、アプレットをグローバルに格納して参照する方式で、非同期でもメソッドを使用できました。しかし、グローバルから参照するゆえに、外部からのスクリプト実行で変数値を変更したり、アプレットのメソッドを呼び出したりできます。これではスコアランキングに支障が出るため、かわりにクロージャを使用することをおすすめします。
+</p>
+<pre><code><span class="comment">/* 使用例２　クロージャを使用し、スコアランキングに支障が出にくくなるように設計する（推奨）*/</span>
+new CanvasMasao.Game(
+	{
+		&quot;map0-0&quot; : &quot;............................................................&quot;,
+		（パラメータ群）
+	}, &quot;hoge&quot;,
+	{
+		<span class="important">userJSCallback : <span class="most_important">(function ()
+		{
+			<span class="comment">// 変数や関数の定義はこの中で行う</span>
+			<span class="gray">var x, y;</span>
+
+			<span class="comment">// コールバック関数を返す（渡す）</span>
+			return function (Offscreen_g, mode, view_x, view_y, <span class="attention">ap</span>)
+			{
+				<span class="gray"><span class="attention">ap</span>.addScore(100);
+				……</span>
+			}
+		})()</span>,
+		highscoreCallback : function (score)
+		{
+			<span class="gray">（ハイスコアイベント時の処理）</span>
+		}</span>
+	}
+);
+</code></pre>
+
+</div>
+
+<div>
+<h2><a name="what_to_arguments">コールバック関数の引数について</a></h2>
+
+<p>
+<var>userJSCallback</var>に登録した関数は、５個の引数を伴って呼び出されます。５つの引数の性質は以下の通りです。
+</p>
+<table class="table_arguments">
+<tr>
+	<th>名前（通称）</th><th>型</th><th>概要</th>
+</tr>
+<tr>
+	<td>Offscreen_g</td><td class="type_other">オブジェクト（Graphics）</td>
+	<td>
+	java.awt.Graphicsを模倣したオブジェクトです。このオブジェクトのメソッドを呼び出してオフスクリーンに描画処理を施します。
+	</td>
+</tr>
+<tr>
+	<td>mode</td><td class="type_number">数値</td>
+	<td>
+	現在のゲームモードを表します。
+	</td>
+</tr>
+<tr>
+	<td>view_x</td><td class="type_number">数値</td>
+	<td>
+	ゲーム全体の左上端を原点としたときの、画面左上端のX座標です。
+	</td>
+</tr>
+<tr>
+	<td>view_y</td><td class="type_number">数値</td>
+	<td>
+	ゲーム全体の左上端を原点としたときの、画面左上端のY座標です。
+	</td>
+</tr>
+<tr>
+	<td>ap</td><td class="type_other">オブジェクト（MasaoJSS : Applet）</td>
+	<td>
+	原作のアプレットを模倣したオブジェクトです。まさおの内部の動作を、このオブジェクトのメソッドを使って制御します。
+	</td>
+</tr>
+</table>
+
+</div>
+
+<div>
+<h2><a name="methods_of_ap">第５引数（ap）で使用できるメソッド一覧</a></h2>
+<p>
+ここではJS版のMasaoJSSで使用できるメソッドをまとめます。<br>
+※引数の[ ]で囲まれた部分は省略できます。その場合は省略時の動作をします。
+</p>
+
+<div>
+<h3><a name="methods_game_system">ゲームシステム</a></h3>
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>getMode</td><td></td><td class="type_number">数値</td><td>
+現在のゲームモードを返します。コールバック関数の第２引数にセットされた値と同じ値が返ります。</td></tr>
+<tr><td>getHighscore</td><td></td><td class="type_number">数値</td><td>
+現在のハイスコアを返します。</td></tr>
+<tr><td>getScore</td><td></td><td class="type_number">数値</td><td>
+現在のスコアを返します。</td></tr>
+<tr><td>addScore</td><td><var>score</var></td><td class="type_boolean">真偽値</td><td>
+引数<var>score</var>の値だけスコアを増加します。引数に負の値が代入されると失敗します。</td></tr>
+<tr><td>setScore</td><td><var>score</var></td><td class="type_boolean">真偽値</td><td>
+スコアを<var>score</var>に設定します。</td></tr>
+<tr><td>getValue</td><td><var class="type_string">name</var></td><td class="type_string">文字列</td><td>
+パラメータ<var>name</var>の値を取得します。</td></tr>
+<tr><td>getParamValue</td><td><var class="type_string">name</var></td><td class="type_string">文字列</td><td>
+<code>getValue(<var>name</var>)</code>と同じです。</td></tr>
+<tr><td>setValue</td><td><var class="type_string">name,</var> <var class="type_string">value</var></td><td class="type_boolean">真偽値</td><td>
+パラメータ<var>name</var>の値を<var>value</var>に設定します（値によっては再起動しないと動作しないことがあります）。</td></tr>
+<tr><td>setParamValue</td><td><var class="type_string">name</var>, <var class="type_string">value</var></td><td class="type_boolean">真偽値</td><td>
+<code>setValue(<var>name</var>, <var>value</var>)</code>と同じです。</td></tr>
+<tr><td>getJSMes</td><td></td><td class="type_number">数値</td><td>
+</td></tr>
+<tr><td>setJSMes</td><td><var>n</var></td><td class="type_boolean">真偽値</td><td>
+</td></tr>
+<tr><td>restart</td><td></td><td class="type_boolean">真偽値</td><td>
+現在のパラメータを保持した状態でゲームを再起動します。</td></tr>
+<tr><td>setTitleLock</td><td></td><td class="type_boolean">真偽値</td><td>
+ユーザーによるゲーム開始をできないようにします。</td></tr>
+<tr><td>startGame</td><td></td><td class="type_boolean">真偽値</td><td>
+タイトル画面にいる場合、ゲームを開始します。</td></tr>
+<tr><td>setModeWait</td><td><var>mode</var>, <var>t</var></td><td class="type_boolean">真偽値</td><td>
+指定モード<var>mode</var>での待ち時間を<var>t</var>フレームに設定します。</td></tr>
+<tr><td>getCoinCount</td><td>[<var>x1</var>, <var>y1</var>, <var>x2</var>, <var>y2</var>]</td><td class="type_number">数値</td><td>
+左上端の座標(<var>x1</var>, <var>y1</var>)、右下端の座標(<var>x2</var>, <var>y2</var>)を指定して、その範囲にあるコインの枚数を取得します。引数を省略した場合はマップ全体にあるコインの枚数を取得します。</td></tr>
+<tr><td>getTimeLimit</td><td></td><td class="type_number">数値</td><td>
+現在の制限時間（画面に表示している値）を取得します。</td></tr>
+<tr><td>setTimeLimit</td><td><var>time</var></td><td class="type_boolean">真偽値</td><td>
+現在の制限時間（画面に表示される値）を<var>time</var>に設定します。</td></tr>
+<tr><td>setMyLeft</td><td><var>num</var></td><td class="type_boolean">真偽値</td><td>
+残り人数（ミスできる回数）を<var>num</var>に設定します。</td></tr>
+<tr><td>getMyLeft</td><td></td><td class="type_number">数値</td><td>
+残り人数を取得します。</td></tr>
+</table>
+</div>
+
+<div>
+<h3><a name="methods_scroll">スクロール制御</a></h3>
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>getViewX</td><td></td><td class="type_number">数値</td><td>
+現在の画面左上端のX座標を、ブロック単位で取得します。</td></tr>
+<tr><td>getViewY</td><td></td><td class="type_number">数値</td><td>
+現在の画面左上端のY座標を、ブロック単位で取得します。</td></tr>
+<tr><td>getViewXReal</td><td></td><td class="type_number">数値</td><td>
+現在の画面左上端のX座標を、ピクセル単位で取得します。コールバック関数の第３引数にセットされた値と同じ値が返ります。</td></tr>
+<tr><td>getViewYReal</td><td></td><td class="type_number">数値</td><td>
+現在の画面左上端のY座標を、ピクセル単位で取得します。コールバック関数の第４引数にセットされた値と同じ値が返ります。</td></tr>
+<tr><td>setScrollLock</td><td><var>x</var></td><td class="type_boolean">真偽値</td><td>
+画面X座標が<var>x</var>に来たらスクロールをロックします。</td></tr>
+<tr><td>setScrollArea</td><td><var>x1</var>, <var>y1</var>, <var>x2</var>, <var>y2</var></td><td class="type_boolean">真偽値</td><td>
+スクロール可能な範囲(<var>x1</var>, <var>y1</var>)～(<var>x2</var>, <var>y2</var>)をブロック単位で設定します。</td></tr>
+<tr><td>setScrollAreaReal</td><td><var>x1</var>, <var>y1</var>, <var>x2</var>, <var>y2</var></td><td class="type_boolean">真偽値</td><td>
+スクロール可能な範囲(<var>x1</var>, <var>y1</var>)～(<var>x2</var>, <var>y2</var>)をピクセル単位で設定します。</td></tr>
+</td></tr>
+</table>
+</div>
+
+<div>
+<h3><a name="methods_image">画像読み込み・チップ生成</a></h3>
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>newImageOnLoad</td><td><var class="type_string">filename</var></td><td class="type_other">画像</td><td>
+<var>filename</var>で指定した画像ファイルを読み込みます。そして、読み込んだ画像のオブジェクトを返します。このオブジェクトは、一部のメソッドの引数として使用することができます。</td></tr>
+<tr><td>newChipImage</td><td><var class="type_string">filename</var>, <var>width</var>, <var>height</var>, <var>nx</var>, <var>ny</var></td><td class="type_number">数値</td><td>
+画像ファイル<var>filename</var>を読み込んでチップ画像に分割します。<var>width</var>は１チップの幅、<var>height</var>は高さ、<var>nx</var>は横に並ぶチップ数、<var>ny</var>は縦に並ぶチップ数です。戻り値はチップ画像へのIDです。</td></tr>
+<tr><td>makeReverseChipImage</td><td><var>chipID</var></td><td class="type_boolean">真偽値</td><td>
+<var>chipID</var>のチップの、左右反転、上下反転、180度回転した画像を生成します。</td></tr>
+<tr><td>getChipImage</td><td><var>chipID</var> [, <var>index</var> [, <var>n</var>]]</td><td class="type_other">画像</td><td>
+<var>chipID</var>の部分チップ画像を取得します。<var>index</var>は分割画像の、最初を0番目としたインデックス、<var>n</var>は画像の反転を表し、0は元画像と同じ、1は左右反転、2は上下反転、3は180度回転した画像です。</td></tr>
+<tr><td>disposeChipImage</td><td><var>chipID</var></td><td class="type_boolean">真偽値</td><td>
+生成したチップ画像を削除します。</td></tr>
+</table>
+</div>
+
+<div>
+<h3><a name="methods_draw_system">基本表示設定</a></h3>
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>setBackImage</td><td><var class="type_string">filename</var></td><td class="type_boolean">真偽値</td><td>
+背景画像を変更します。</td></tr>
+<tr><td>setSecondImage</td><td><var class="type_string">filename</var></td><td class="type_boolean">真偽値</td><td>
+セカンド画像を変更します。</td></tr>
+<tr><td>setSystemImage</td><td><var>n</var>, <var class="type_string">filename</var></td><td class="type_boolean">真偽値</td><td>
+ゲーム中で使われている画像を設定します。</td></tr>
+<tr><td>setSystemDrawMode</td><td><var>n</var></td><td class="type_boolean">真偽値</td><td>
+MasaoJSS側が描画するオブジェクトを制限します。<var>n</var>に1を指定するとすべての物体を描画します。また、2を指定すると主人公を、3を指定すると主人公と敵を、4を指定するとすべての物体（得点の文字なども含めたすべて）を描画しなくなります。</td></tr>
+<tr><td>drawSystemObject</td><td><var>n</var></td><td class="type_boolean">真偽値</td><td>
+JavaScript側から、物体を描画させるよう指示します。<var>n</var>は描画するオブジェクトの種類で、1は主人公、2は敵、3は得点と一言メッセージ、4は背景画像/背景色、5は背景レイヤーのマップ、6は標準レイヤーのマップ、7は動く床などの仕掛けです。</td></tr>
+<tr><td>setSystemPattern</td><td><var>destCode</var>, <var>newCode</var></td><td class="type_boolean">真偽値</td><td>
+指定したパターンコード<var>destCode</var>の画像に、他のパターンコード<var>newCode</var>の画像を上書きコピーします。この設定はページを再読み込みするまで有効なので注意してください。</td></tr>
+<tr><td>setSystemPatternImage</td><td><var>destCode</var>, <var>n</var>, <var class="type_other">image</var></td><td class="type_boolean">真偽値</td><td>
+指定したパターンコード<var>destCode</var>の画像に、画像オブジェクト<var>image</var>の画像を上書きコピーします。<var>n</var>は反転情報で、0でそのまま、1で左右反転します。この設定はページを再読み込みするまで有効なので注意してください。</td></tr>
+</table>
+</div>
+
+<div>
+<h3><a name="methods_first_person_position">主人公の位置・動き</a></h3>
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>getMyX</td><td></td><td class="type_number">数値</td><td>
+主人公のX座標（ブロック単位）を取得します。</td></tr>
+<tr><td>getMyY</td><td></td><td class="type_number">数値</td><td>
+主人公のY座標（ブロック単位）を取得します。</td></tr>
+<tr><td>setMyPosition</td><td><var>x</var>, <var>y</var></td><td class="type_boolean">真偽値</td><td>
+主人公の座標をブロック単位で設定します。</td></tr>
+<tr><td>getMyXReal</td><td></td><td class="type_number">数値</td><td>
+主人公のX座標（ピクセル単位）を取得します。</td></tr>
+<tr><td>getMyYReal</td><td></td><td class="type_number">数値</td><td>
+主人公のY座標（ピクセル単位）を取得します。</td></tr>
+<tr><td>setMyXReal</td><td><var>x</var></td><td class="type_boolean">真偽値</td><td>
+主人公のX座標（ピクセル単位）を設定します。</td></tr>
+<tr><td>setMyYReal</td><td><var>y</var></td><td class="type_boolean">真偽値</td><td>
+主人公のY座標（ピクセル単位）を設定します。</td></tr>
+<tr><td>getMyVX</td><td></td><td class="type_number">数値</td><td>
+主人公のX方向の速度を取得します。</td></tr>
+<tr><td>getMyVY</td><td></td><td class="type_number">数値</td><td>
+主人公のY方向の速度を取得します。</td></tr>
+<tr><td>getMyDirection</td><td></td><td class="type_number">数値</td><td>
+主人公の向きを取得します。0は左向き、1は右向きです。</td></tr>
+<tr><td>setMyVX</td><td><var>vx</var></td><td class="type_boolean">真偽値</td><td>
+主人公のX方向の速度を設定します。</td></tr>
+<tr><td>setMyVY</td><td><var>vy</var></td><td class="type_boolean">真偽値</td><td>
+主人公のY方向の速度を設定します。</td></tr>
+<tr><td>setMySpeed</td><td><var>speed</var></td><td class="type_boolean">真偽値</td><td>
+主人公の４方向・８方向移動の速さを設定します。</td></tr>
+</table>
+</div>
+
+<div>
+<h3><a name="methods_first_person_states">主人公の状態・動作・特技</a></h3>
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>setMyMiss</td><td><var>n</var></td><td class="type_boolean">真偽値</td><td>
+主人公がミスをします。<var>n</var>には動きを設定します。</td></tr>
+<tr><td>setMyPress</td><td><var>n</var></td><td class="type_boolean">真偽値</td><td>
+主人公が踏む動作をします。<var>n</var>には動きを設定します。</td></tr>
+<tr><td>showMyHP</td><td><var class="type_string">name</var></td><td class="type_boolean">真偽値</td><td>
+主人公のHPを表示します。<var>name</var>にはHPの名前を設定します。</td></tr>
+<tr><td>setMyMaxHP</td><td><var>hp</var></td><td class="type_boolean">真偽値</td><td>
+ゲーム開始時の主人公のHPを設定します。</td></tr>
+<tr><td>setMyHP</td><td><var>hp</var></td><td class="type_boolean">真偽値</td><td>
+現在の主人公のHPを設定します。0を指定するとHPは0になりますが、ミスにはなりません。</td></tr>
+<tr><td>getMyHP</td><td></td><td class="type_number">数値</td><td>
+現在の主人公のHPを取得します。</td></tr>
+<tr><td>setMyHPDamage</td><td><var>damage</var></td><td class="type_boolean">真偽値</td><td>
+主人公に<var>damage</var>ダメージを与えます。ただし、ダメージ直後の点滅状態ではダメージを与えられません。HPが0以下になるとHPは0になりますが、ミスにはなりません。</td></tr>
+<tr><td>setMyWait</td><td><var>time</var>, <var>code</var>, <var>direction</var></td><td class="type_boolean">真偽値</td><td>
+主人公を<var>time</var>フレームの間停止させます。<var>code</var>には停止中のパターンコードを指定します<var>direction</var>は、0で左向き、1で右向きにします。</td></tr>
+<tr><td>setStageClear</td><td></td><td class="type_boolean">真偽値</td><td>
+ステージクリアします。</td></tr>
+<tr><td>isRideGround</td><td></td><td class="type_number">数値</td><td>
+主人公が地面に乗っているか判定します。乗っているならば1を返します。</td></tr>
+<tr><td>addMyTokugi</td><td><var>n</var></td><td class="type_boolean">真偽値</td><td>
+主人公に特技<var>n</var>を付加します。</td></tr>
+<tr><td>removeMyTokugi</td><td><var>n</var></td><td class="type_boolean">真偽値</td><td>
+主人公の特技<var>n</var>を無効にします。</td></tr>
+<tr><td>setEnemyPress</td><td><var>n</var></td><td class="type_boolean">真偽値</td><td>
+主人公が敵を踏めるかを設定します。<var>n</var>に1を代入すると踏める設定、2を代入すると踏めない設定、3を代入すると当たり判定をなくす設定になります。</td></tr>
+</table>
+</div>
+
+<div>
+<h3><a name="methods_equipment">主人公の装備</a></h3>
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>equipTail</td><td><var>flag</var></td><td class="type_boolean">真偽値</td><td>
+主人公のしっぽ装備を切り替えます。<var>flag</var>に1を代入すると装備し、0を代入すると外します。</td></tr>
+<tr><td>equipFire</td><td>[<var>flag</var>]</td><td class="type_boolean">真偽値</td><td>
+主人公のファイヤーボール装備を切り替えます。<var>flag</var>に1を代入すると装備し、0を代入すると外します。</td></tr>
+<tr><td>setFireRange</td><td><var>range</var></td><td class="type_boolean">真偽値</td><td>
+水平に飛ぶタイプのファイヤーボールの射程を設定します。</td></tr>
+<tr><td>equipBarrier</td><td><var>time</var></td><td class="type_boolean">真偽値</td><td>
+<var>time</var>フレームの間持続するバリアを装備します。</td></tr>
+<tr><td>getBarrierTime</td><td></td><td class="type_number">数値</td><td>
+バリアの残り時間を取得します。</td></tr>
+<tr><td>equipJet</td><td><var>value</var></td><td class="type_boolean">真偽値</td><td>
+ジェット燃料量を<var>value</var>に設定します。</td></tr>
+<tr><td>setJetFuel</td><td><var>value</var></td><td class="type_boolean">真偽値</td><td>
+<code>equipJet(<var>value</var>)</code>と同じです。</td></tr>
+<tr><td>equipGrenade</td><td><var>num</var></td><td class="type_boolean">真偽値</td><td>
+グレネード所持数を<var>num</var>に設定します。</td></tr>
+<tr><td>setGrenadeCount</td><td><var>num</var></td><td class="type_boolean">真偽値</td><td>
+<code>equipGrenade(<var>num</var>)</code>と同じです。</td></tr>
+<tr><td>getGrenadeCount</td><td></td><td class="type_number">数値</td><td>
+グレネードの所持数を取得します。</td></tr>
+</table>
+</div>
+
+<div>
+<h3><a name="methods_enemy">敵と攻撃</a></h3>
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>setEnemy</td><td><var>code</var>, <var>x</var>, <var>y</var></td><td class="type_boolean">真偽値</td><td>
+敵（の攻撃）を座標(<var>x</var>, <var>y</var>)（ブロック単位）に配置します。<var>code</var>は敵（の攻撃）のコードを指定します。</td></tr>
+<tr><td>getEnemyTotal</td><td></td><td class="type_number">数値</td><td>
+マップに配置直後の敵の数を取得します。</td></tr>
+<tr><td>destroyEnemy</td><td><var>x</var>, <var>y</var>, <var>width</var>, <var>height</var></td><td class="type_number">数値</td><td>
+指定された矩形（ピクセル単位）の範囲内にいる敵を倒します。戻り値は、倒した敵の数です。</td></tr>
+</table>
+</div>
+
+<div>
+<h3><a name="methods_boss">ボス</a></h3>
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>getBossXReal</td><td></td><td class="type_number">数値</td><td>
+ボスのX座標を取得します。</td></tr>
+<tr><td>getBossYReal</td><td></td><td class="type_number">数値</td><td>
+ボスのY座標を取得します。</td></tr>
+<tr><td>getBossHP</td><td></td><td class="type_number">数値</td><td>
+ボスのHPを取得します。</td></tr>
+<tr><td>getBossDirection</td><td></td><td class="type_number">数値</td><td>
+ボスの向きを取得します。0は左向き、1は右向きです。</td></tr>
+<tr><td>isBossAttackMode</td><td></td><td class="type_number">数値</td><td>
+ボスが攻撃中ならば1を返します。</td></tr>
+<tr><td>setBossXReal</td><td><var>x</var></td><td class="type_boolean">真偽値</td><td>
+ボスのX座標を設定します。</td></tr>
+<tr><td>setBossYReal</td><td><var>y</var></td><td class="type_boolean">真偽値</td><td>
+ボスのY座標を設定します。</td></tr>
+<tr><td>setBossObjectImage</td><td><var class="type_other">image</var>, <var>dx</var>, <var>dy</var></td><td class="type_boolean">真偽値</td><td>
+ボスの画像を<var>image</var>オブジェクトに設定します。<var>dx</var>、<var>dy</var>はそれぞれX座標補正値、Y座標補正値です。</td></tr>
+</table>
+</div>
+
+<div>
+<h3><a name="methods_parameters">各種キャラクターのパラメータ</a></h3>
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>getMyObjectCondition</td><td></td><td class="type_number">数値</td><td>
+主人公の状態を取得します。</td></tr>
+<tr><td>getMyObjectAC</td><td></td><td class="type_number">数値</td><td>
+主人公のアニメーションカウンタを取得します。</td></tr>
+<tr><td>getMyObjectPattern</td><td></td><td class="type_number">数値</td><td>
+主人公のパターンコードを取得します。</td></tr>
+<tr><td>getMyDirection4way</td><td></td><td class="type_number">数値</td><td>
+４方向移動の主人公の向きを取得します。</td></tr>
+<tr><td>setMyObjectPattern</td><td><var>code</var></td><td class="type_boolean">真偽値</td><td>
+主人公の画像をパターンコードで設定します。</td></tr>
+<tr><td>setMyObjectImage</td><td><var class="type_other">image</var>, <var>dx</var>, <var>dy</var></td><td class="type_boolean">真偽値</td><td>
+主人公の画像を画像オブジェクトで設定します。設定を解除する場合は<var>image</var>にnullを代入してください。<var>dx</var>、<var>dy</var>はそれぞれX座標補正値、Y座標補正値です。</td></tr>
+<tr><td>setEnemyObjectPattern</td><td><var>enemyID</var>, <var>code</var></td><td class="type_boolean">真偽値</td><td>
+指定IDの敵の画像をパターンコードで設定します。</td></tr>
+<tr><td>getEnemyObjectCondition</td><td><var>enemyID</var></td><td class="type_number">数値</td><td>
+指定IDの敵の状態を取得します。</td></tr>
+<tr><td>getEnemyObjectPattern</td><td><var>enemyID</var></td><td class="type_number">数値</td><td>
+指定IDの敵のパターンコードを取得します。</td></tr>
+<tr><td>getEnemyObjectX</td><td><var>enemyID</var></td><td class="type_number">数値</td><td>
+指定IDの敵のX座標を取得します。</td></tr>
+<tr><td>getEnemyObjectY</td><td><var>enemyID</var></td><td class="type_number">数値</td><td>
+指定IDの敵のY座標を取得します。</td></tr>
+<tr><td>getEnemyObjectLength</td><td></td><td class="type_number">数値</td><td>
+マップに配置直後の敵の数を取得します。</td></tr>
+<tr><td>getEnemyObjectDirection</td><td><var>enemyID</var></td><td class="type_number">数値</td><td>
+指定IDの敵の向きを取得します。</td></tr>
+<tr><td>setEnemyObjectImage</td><td><var>enemyID</var>, <var class="type_other">image</var>, <var>dx</var>, <var>dy</var></td><td class="type_boolean">真偽値</td><td>
+指定IDの敵の画像を画像オブジェクトで設定します。<var>dx</var>、<var>dy</var>はそれぞれX座標補正値、Y座標補正値です。</td></tr>
+<tr><td>getEnemyAC</td><td></td><td class="type_number">数値</td><td>
+指定IDの敵のアニメーションカウンタを取得します。</td></tr>
+</table>
+</div>
+
+<div>
+<h3><a name="methods_hit">ファイヤーボール・しっぽの当たり判定</a></h3>
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>attackFire</td><td><var>x</var>, <var>y</var>, <var>width</var>, <var>height</var></td><td class="type_number">数値</td><td>
+指定された矩形（ピクセル単位）にファイヤーボール、グレネード、プラズマ砲の当たり判定を作成します。ファイヤーボールが当たると1、グレネード、プラズマ砲が当たると10、これらが同時に当たると数値を合計し、その値を返します。</td></tr>
+<tr><td>attackTail</td><td><var>x</var>, <var>y</var>, <var>width</var>, <var>height</var></td><td class="type_number">数値</td><td>
+指定された矩形（ピクセル単位）にしっぽ攻撃の当たり判定を作成します。命中すると1、さもなくば0を返します。</td></tr>
+</table>
+</div>
+
+<div>
+<h3><a name="methods_show">簡易表示</a></h3>
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>showMessage</td><td><var>time</var>, <var class="type_string">name</var>, <var class="type_string">line1</var>, <var class="type_string">line2</var>, <var class="type_string">line3</var></td><td class="type_boolean">真偽値</td><td>
+一言メッセージを<var>time</var>フレームの間表示します。<var>name</var>に名前、<var>line1</var>～<var>line3</var>にセリフ文字列を指定します。</td></tr>
+<tr><td>showImage</td><td><var>time</var>, <var>x</var>, <var>y</var>, <var class="type_string">filename</var></td><td class="type_boolean">真偽値</td><td>
+画像ファイル<var>filename</var>を<var>time</var>フレームの間表示します。</td></tr>
+<tr><td>setPenColor</td><td><var>r</var>, <var>g</var>, <var>b</var> [, <var>a</var>]</td><td class="type_boolean">真偽値</td><td>
+<code>showRect</code>、<code>showOval</code>メソッドで表示する図形の色を設定します。<var>r</var>、<var>g</var>、<var>b</var>に光の３原色の赤・緑・青を、<var>a</var>に不透明度を指定します。それぞれ0～255の範囲で指定します。<var>a</var>を省略した場合は完全に不透明になります。</td></tr>
+<tr><td>showRect</td><td><var>time</var>, <var>x</var>, <var>y</var>, <var>width</var>, <var>height</var></td><td class="type_boolean">真偽値</td><td>
+指定された矩形を<var>time</var>フレームの間表示します。</td></tr>
+<tr><td>showOval</td><td><var>time</var>, <var>x</var>, <var>y</var>, <var>width</var>, <var>height</var></td><td class="type_boolean">真偽値</td><td>
+指定された矩形領域に収まる楕円を<var>time</var>フレームの間表示します。</td></tr>
+</table>
+</div>
+
+<div>
+<h3><a name="methods_gauge">ゲージ</a></h3>
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>showGauge</td><td><var>value</var>, <var class="type_string">string</var></td><td class="type_boolean">真偽値</td><td>
+長さ<var>value</var>のゲージを表示します。<var>string</var>には、ゲージの上に表示する文字列を指定します。</td></tr>
+<tr><td>hideGauge</td><td></td><td class="type_boolean">真偽値</td><td>
+ゲージを非表示にします。</td></tr>
+</table>
+</div>
+
+<div>
+<h3><a name="methods_mapchip">パーツ配置・取得</a></h3>
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>setMapchip</td><td><var>x</var>, <var>y</var>, <var>code</var></td><td class="type_boolean">真偽値</td><td>
+指定座標(<var>x</var>, <var>y</var>)（ブロック単位）に標準レイヤーのパーツを配置します。<var>code</var>は配置するパーツのコードです。</td></tr>
+<tr><td>getMapchip</td><td><var>x</var>, <var>y</var></td><td class="type_number">数値</td><td>
+指定座標(<var>x</var>, <var>y</var>)（ブロック単位）に配置されている標準レイヤーのコードを取得します。</td></tr>
+<tr><td>setMapchip2</td><td><var>x</var>, <var>y</var>, <var>code</var></td><td class="type_boolean">真偽値</td><td>
+指定座標(<var>x</var>, <var>y</var>)（ブロック単位）に背景レイヤーのパーツを配置します。<var>code</var>は配置するパーツの番号です。</td></tr>
+<tr><td>getMapchip2</td><td><var>x</var>, <var>y</var></td><td class="type_number">数値</td><td>
+指定座標(<var>x</var>, <var>y</var>)（ブロック単位）に配置されている背景レイヤーの番号を取得します。</td></tr>
+<tr><td>setAthletic</td><td><var>x</var>, <var>y</var>, <var>n</var></td><td class="type_boolean">真偽値</td><td>
+指定された座標（ブロック単位）に仕掛けパーツを配置します。<var>n</var>の値は、firebar1_typeパラメータの設定値と同じものを指定します。</td></tr>
+</table>
+</div>
+
+<div>
+<h3><a name="methods_keyboard">キー入力系</a></h3>
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>pressLeft</td><td></td><td class="type_boolean">真偽値</td><td>
+左キーを押します。</td></tr>
+<tr><td>pressLeft2</td><td></td><td class="type_boolean">真偽値</td><td>
+左キーを２連続で押します。（ダッシュの操作）</td></tr>
+<tr><td>releaseLeft</td><td></td><td class="type_boolean">真偽値</td><td>
+左キーを離します。</td></tr>
+<tr><td>pressRight</td><td></td><td class="type_boolean">真偽値</td><td>
+右キーを押します。</td></tr>
+<tr><td>pressRight2</td><td></td><td class="type_boolean">真偽値</td><td>
+右キーを２連続で押します。</td></tr>
+<tr><td>releaseRight</td><td></td><td class="type_boolean">真偽値</td><td>
+右キーを離します。</td></tr>
+<tr><td>pressUp</td><td></td><td class="type_boolean">真偽値</td><td>
+上キーを押します。</td></tr>
+<tr><td>releaseUp</td><td></td><td class="type_boolean">真偽値</td><td>
+上キーを離します。</td></tr>
+<tr><td>pressDown</td><td></td><td class="type_boolean">真偽値</td><td>
+下キーを押します。</td></tr>
+<tr><td>releaseDown</td><td></td><td class="type_boolean">真偽値</td><td>
+下キーを離します。</td></tr>
+<tr><td>pressTrigger1</td><td></td><td class="type_boolean">真偽値</td><td>
+ジャンプキーを押します。</td></tr>
+<tr><td>releaseTrigger1</td><td></td><td class="type_boolean">真偽値</td><td>
+ジャンプキーを離します。</td></tr>
+<tr><td>releaseAll</td><td></td><td class="type_boolean">真偽値</td><td>
+すべてのキーを離します。</td></tr>
+<tr><td>getKeyCode</td><td></td><td class="type_number">数値</td><td>
+押下中のキーコードを返します。</td></tr>
+<tr><td>resetKeyCode</td><td></td><td class="type_boolean">真偽値</td><td>
+キーコードをリセットして0にします。</td></tr>
+<tr><td>isPressZKey</td><td></td><td class="type_number">数値</td><td>
+Zキーが押されているかを判定します。押されていれば1、さもなくば0を返します。</td></tr>
+<tr><td>isPressXKey</td><td></td><td class="type_number">数値</td><td>
+Xキーが押されているかを判定します。</td></tr>
+<tr><td>isPressSpaceKey</td><td></td><td class="type_number">数値</td><td>
+スペースキーが押されているかを判定します。</td></tr>
+<tr><td>isPressUpKey</td><td></td><td class="type_number">数値</td><td>
+上キーが押されているかを判定します。</td></tr>
+<tr><td>isPressDownKey</td><td></td><td class="type_number">数値</td><td>
+下キーが押されているかを判定します。</td></tr>
+<tr><td>isPressLeftKey</td><td></td><td class="type_number">数値</td><td>
+左キーが押されているかを判定します。</td></tr>
+<tr><td>isPressRightKey</td><td></td><td class="type_number">数値</td><td>
+右キーが押されているかを判定します。</td></tr>
+<tr><td>isPressCodeKey</td><td><var>keyCode</var></td><td class="type_number">数値</td><td>
+指定コードのキーが押されているかを判定します。</td></tr>
+</table>
+</div>
+
+<div>
+<h3><a name="methods_yuka">床オブジェクト</a></h3>
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>newYuka</td><td><var>x</var>, <var>y</var>, <var>width</var>, <var>height</var>, <var class="type_string">filename</var></td><td class="type_number">数値</td><td>
+指定した長方形の、画像ファイル<var>filename</var>を表示する床オブジェクトを作成します。戻り値は床オブジェクトへのIDです。</td></tr>
+<tr><td>newYuka</td><td><var>x</var>, <var>y</var>, <var>width</var>, <var>height</var>, <span class="type_string">&quot;rect&quot;</span></td><td class="type_number">数値</td><td>
+第５引数を&quot;rect&quot;にすると、画像ではなく矩形を表示します。</td></tr>
+<tr><td>newYuka</td><td><var>x1</var>, <var>y1</var>, <var>x2</var>, <var>y2</var>, <var class="type_string">linetype</var></td><td class="type_number">数値</td><td>
+<var>linetype</var>を&quot;line&quot;にすると、始点(<var>x1</var>, <var>y1</var>)～終点(<var>x2</var>, <var>y2</var>)を結ぶ線分の床を作成します。<var>linetype</var>を&quot;triangle&quot;にすると、線分を斜辺とする直角三角形を描画します。<var>linetype</var>を&quot;mount&quot;にすると、線分から下を塗りつぶします。</td></tr>
+<tr><td>setYukaPosition</td><td><var>yukaID</var>, <var>x</var>, <var>y</var></td><td class="type_boolean">真偽値</td><td>
+指定されたIDの<strong>長方形</strong>の床の座標を設定します。</td></tr>
+<tr><td>setYukaPosition</td><td><var>yukaID</var>, <var>x1</var>, <var>y1</var>, <var>x2</var>, <var>y2</var></td><td class="type_boolean">真偽値</td><td>
+指定されたIDの<strong>線分</strong>の床の座標を設定します。</td></tr>
+<tr><td>setYukaType</td><td><var>yukaID</var>, <var>n</var></td><td class="type_boolean">真偽値</td><td>
+指定IDの床の当たり判定を設定します。<var>n</var>に2を代入すると当たり判定を無効にします。</td></tr>
+<tr><td>disposeYuka</td><td><var>yukaID</var></td><td class="type_boolean">真偽値</td><td>
+指定IDの床を削除します。</td></tr>
+<tr><td>setYukaColor</td><td><var>yukaID</var>, <var>r</var>, <var>g</var>, <var>b</var>, <var>a</var></td><td class="type_boolean">真偽値</td><td>
+指定IDの床の色を設定します。画像を表示している場合は無効です。</td></tr>
+<tr><td>isRideYuka</td><td><var>yukaID</var></td><td class="type_number">数値</td><td>
+指定IDの床に主人公が乗っているかを判定します。</td></tr>
+<tr><td>setYukaPattern</td><td><var>yukaID</var>, <var>code</var>, <var>n</var></td><td class="type_boolean">真偽値</td><td>
+指定IDの<strong>長方形</strong>の床に、標準レイヤーのパターン画像を設定します。<var>n</var>は、0だとそのまま、1だと左右反転した画像を表示します。</td></tr>
+<tr><td>setYukaImage</td><td><var>yukaID</var>, <var class="type_other">image</var></td><td class="type_boolean">真偽値</td><td>
+指定IDの<strong>長方形</strong>の床に、画像オブジェクトの画像を設定します。引数<var>image</var>にファイル名を指定した場合、画像ファイルを読み込んで設定します。</td></tr>
+</table>
+</div>
+
+<div>
+<h3><a name="methods_sound">音利用</a></h3>
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>soundOn</td><td></td><td class="type_boolean">真偽値</td><td>
+効果音を出します。</td></tr>
+<tr><td>soundOff</td><td></td><td class="type_boolean">真偽値</td><td>
+効果音を消します。</td></tr>
+<tr><td>onSound</td><td></td><td class="type_boolean">真偽値</td><td>
+<code>soundOn()</code>と同じです。</td></tr>
+<tr><td>offSound</td><td></td><td class="type_boolean">真偽値</td><td>
+<code>soundOff()</code>と同じです。</td></tr>
+<tr><td>playSound</td><td><var>n</var></td><td class="type_boolean">真偽値</td><td>
+効果音を再生します。<var>n</var>には効果音の番号1～27の値を指定します。</td></tr>
+</table>
+</div>
+
+<div>
+<h3><a name="methods_offscreen">オフスクリーン関係</a></h3>
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>setFontSize</td><td><var>size</var></td><td class="type_boolean">真偽値</td><td>
+スコアなどの文字列のサイズを設定します</td></tr>
+<tr><td>newFont</td><td><var class="type_string">fontname</var>, <var>n</var>, <var>size</var></td><td class="type_other">フォント</td><td>
+第１引数（Offscreen_g）で使用できるフォントオブジェクトを作成します。<var>n</var>はフォントの修飾で、0は通常、1は太字、2は斜体です。環境によっては使用できないフォントも多く存在するので注意してください。</td></tr>
+<tr><td>drawPattern</td><td><var>x</var>, <var>y</var>, <var>code</var>, <var>n</var></td><td class="type_boolean">真偽値</td><td>
+オフスクリーンの指定座標に標準レイヤーのパターン画像を描画します。<var>n</var>は反転情報で、0でそのまま、1で左右反転して描画します。</td></tr>
+<tr><td>setOffscreenColor</td><td><var>r</var>, <var>g</var>, <var>b</var>, <var>a</var></td><td class="type_boolean">真偽値</td><td>
+オフスクリーンに描画する図形の色を設定します。</td></tr>
+<tr><td>fillPolygon</td><td><var>x1</var>, <var>y1</var>, <var>x2</var>, <var>y2</var>, <var>x3</var>, <var>y3</var> [, <var>x4</var>, <var>y4</var>]</td><td class="type_boolean">真偽値</td><td>
+オフスクリーンに、指定された点を結ぶ、塗りつぶした多角形を描画します。第７、第８引数を省略すると三角形、指定すると四角形を描画します。</td></tr>
+<tr><td>drawImageRotate</td><td><var class="type_other">image</var>, <var>x</var>, <var>y</var>, <var>angle</var></td><td class="type_boolean">真偽値</td><td>
+オフスクリーンの指定座標に、画像オブジェクトの画像を<var>angle</var>度回転させて描画します。</td></tr>
+<tr><td>drawImageScale</td><td><var class="type_other">image</var>, <var>x</var>, <var>y</var>, <var>rateX</var>, <var>rateY</var></td><td class="type_boolean">真偽値</td><td>
+オフスクリーンの指定座標に、画像オブジェクトの画像を拡大・縮小させて描画します。<var>rateX</var>、<var>rateY</var>は、それぞれX方向、Y方向の拡大率で、単位はパーセントです。例えば50を指定すると半分の長さ、200を指定すると2倍の長さになります。</td></tr>
+<tr><td>drawImageAlphaComposite</td><td><var class="type_other">image</var>, <var>x</var>, <var>y</var>, <var>a</var></td><td class="type_boolean">真偽値</td><td>
+オフスクリーンの指定座標に、画像オブジェクトの画像を半透明にして描画します。<var>a</var>は不透明度で、単位はパーセントです。0で完全透明、100で不透明になります。</td></tr>
+</table>
+</div>
+
+<div>
+<h3><a name="methods_cannot_use">使用不可能メソッド</a></h3>
+<p>
+一応対応予定ですが、需要がないようならばこのまま削除します。
+</p>
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>playBGM</td><td><var class="type_string">filename</var></td><td class="type_boolean">真偽値</td><td>
+<del>音声ファイル名を指定して、そのBGMを再生します。</del>正常に再生されません。</td></tr>
+<tr><td>playBGMLoop</td><td><var class="type_string">filename</var></td><td class="type_boolean">真偽値</td><td>
+<del>音声ファイル名を指定して、そのBGMをループ再生します。</del>正常に再生されません。</td></tr>
+<tr><td>stopBGM</td><td></td><td class="type_boolean">真偽値</td><td>
+<del>再生中のBGMを停止します。</del>上の２つのメソッドが使用不可能なゆえに、このメソッドも使用できません。</td></tr>
+<tr><td>setHTMLText</td><td><var class="type_string">html</var></td><td class="type_boolean">真偽値</td><td>
+<del>HTMLテキストを指定して解析し、パラメータを一括設定します。</del>このメソッドは使用できません。代わりに<code>setParamValue(<var>name</var>, <var>value</var>)を使用してください。</code></td></tr>
+<tr><td>loadTextFile</td><td><var class="type_string">filename</var></td><td class="type_string">文字列</td><td>
+<del>テキストファイルを読み込み、内容を文字列で返します。</del>呼び出すとnullが返ります。</td></tr>
+<tr><td>drawImage</td><td><var class="type_string">filename</var>, <var>x</var>, <var>y</var></td><td class="type_boolean">真偽値</td><td>
+<del>画像ファイルを読み込み、指定座標に表示します。</del>読み込みの遅延などの影響があるので使用できないようにしています。代わりに<code>newImageOnLoad(<var>filename</var>)</code>で画像オブジェクトを取得したのち、<code><var>Offscreen_g</var>.drawImage(<var>image</var>, <var>x</var>, <var>y</var>)</code>メソッドで描画してください。</td></tr>
+</table>
+</div>
+
+</div>
+
+<div>
+<h2><a name="methods_of_offscreen">第１引数（Offscreen_g）で使用できるメソッド一覧</a></h2>
+
+<table class="table_methods">
+<tr>
+	<th>名前</th><th>引数</th><th>戻り値の型</th><th>説明</th>
+</tr>
+<tr><td>drawLine</td><td><var>x1</var>, <var>y1</var>, <var>x2</var>, <var>y2</var></td><td class="type_boolean">真偽値</td><td>
+点(<var>x1</var>, <var>y1</var>)と点(<var>x2</var>, <var>y2</var>)を結ぶ線分を描画します。</td></tr>
+<tr><td>drawImage</td><td><var class="type_other">image</var>, <var>x</var>, <var>y</var></td><td class="type_boolean">真偽値</td><td>
+指定座標に画像オブジェクトの画像を描画します。</td></tr>
+<tr><td>drawImage</td><td><var class="type_other">image</var>, <var>x</var>, <var>y</var>, <var>width</var>, <var>height</var></td><td class="type_boolean">真偽値</td><td>
+指定矩形に収まるようにスケーリングして画像オブジェクトの画像を描画します。</td></tr>
+<tr><td>drawImage</td><td><var class="type_other">image</var>, <var>sourceX</var>, <var>sourceY</var>, <var>sourceWidth</var>, <var>sourceHeight</var>, <var>drawX</var>, <var>drawY</var>, <var>drawWidth</var>, <var>drawHeight</var></td><td class="type_boolean">真偽値</td><td>
+画像オブジェクトの画像の、指定された矩形(<var>sourceX</var>, <var>sourceY</var>, <var>sourceWidth</var>, <var>sourceHeight</var>)部分を抜き出した画像を、指定矩形(<var>drawX</var>, <var>drawY</var>, <var>drawWidth</var>, <var>drawHeight</var>)に収まるように描画します。</td></tr>
+<tr><td>drawRect</td><td><var>x</var>, <var>y</var>, <var>width</var>, <var>height</var></td><td class="type_boolean">真偽値</td><td>
+塗りつぶさない矩形を現在の色で描画します。</td></tr>
+<tr><td>fillRect</td><td><var>x</var>, <var>y</var>, <var>width</var>, <var>height</var></td><td class="type_boolean">真偽値</td><td>
+塗りつぶした矩形を現在の色で描画します。</td></tr>
+<tr><td>drawOval</td><td><var>x</var>, <var>y</var>, <var>width</var>, <var>height</var></td><td class="type_boolean">真偽値</td><td>
+指定した矩形に収まる、塗りつぶさない楕円を現在の色で描画します。</td></tr>
+<tr><td>fillOval</td><td><var>x</var>, <var>y</var>, <var>width</var>, <var>height</var></td><td class="type_boolean">真偽値</td><td>
+指定した矩形に収まる、塗りつぶした楕円を現在の色で描画します。</td></tr>
+<tr><td>drawArc</td><td><var>x</var>, <var>y</var>, <var>width</var>, <var>height</var>, <var>angle</var>, <var>theta</var></td><td class="type_boolean">真偽値</td><td>
+指定した矩形(<var>x</var>, <var>y</var>, <var>width</var>, <var>height</var>)に収まる、塗りつぶさない円弧を現在の色で描画します。円弧の開始角度<var>angle</var>から<var>theta</var>回転した角度までが描画対象です。単位はラジアンです。</td></tr>
+<tr><td>fillArc</td><td><var>x</var>, <var>y</var>, <var>width</var>, <var>height</var>, <var>angle</var>, <var>theta</var></td><td class="type_boolean">真偽値</td><td>
+指定した矩形(<var>x</var>, <var>y</var>, <var>width</var>, <var>height</var>)に収まる、塗りつぶした円弧を現在の色で描画します。円弧の開始角度<var>angle</var>から<var>theta</var>回転した角度までが描画対象です。単位はラジアンです。</td></tr>
+<tr><td>drawPolygon</td><td><var class="type_other">xa</var>, <var class="type_other">ya</var>, <var>num</var></td><td class="type_boolean">真偽値</td><td>
+X座標（<var>xa</var>）とY座標（<var>ya</var>）の配列から、頂点(<var>xa</var>[0], <var>ya</var>[0])-(<var>xa</var>[1], <var>ya</var>[1])-…を結んで、塗りつぶさない多角形を現在の色で描画します。<var>num</var>は頂点の数です。</td></tr>
+<tr><td>fillPolygon</td><td><var class="type_other">xa</var>, <var class="type_other">ya</var>, <var>num</var></td><td class="type_boolean">真偽値</td><td>
+X座標（<var>xa</var>）とY座標（<var>ya</var>）の配列から、頂点(<var>xa</var>[0], <var>ya</var>[0])-(<var>xa</var>[1], <var>ya</var>[1])-…を結んで、塗りつぶす多角形を現在の色で描画します。<var>num</var>は頂点の数です。</td></tr>
+<tr><td>drawString</td><td><var class="type_string">string</var>, <var>x</var>, <var>y</var></td><td class="type_boolean">真偽値</td><td>
+指定座標に文字列を描画します。</td></tr>
+<tr><td>setFont</td><td><var class="type_other">font</var></td><td class="type_boolean">真偽値</td><td>
+描画文字列のフォントをフォントオブジェクトで設定します。フォントオブジェクトは<code><var>ap</var>.newFont()</code>メソッドで取得してください。</td></tr>
+</table>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>まさおソース変換器</title>
+
+<style type="text/css">
+textarea{
+	max-width : 700px;
+	max-height : 200px;
+	min-width : 700px;
+	min-height : 200px;
+}
+</style>
+	
+<script type="text/javascript">
+
+var srcInput;
+var srcOutput;
+
+function init()
+{
+	srcInput = document.getElementById("input");
+	srcOutput = document.getElementById("output");
+}
+
+function run()
+{
+	try
+	{
+		var val = '';
+		val += "<script type=\"text\/javascript\">\n";
+		val += "new CanvasMasao.Game({\n";
+		val += convertSource(srcInput.value);
+		val += "\n});\n";
+		val += "<\/script>\n";
+		srcOutput.value = val;
+	}
+	catch(e)
+	{
+		alert("コード変換中にエラーが発生しました。");
+		alert(e.stack);
+	}
+}
+
+// paramタグで書かれたまさおソースを連想配列の形に変換する
+function convertSource(buffer)
+{
+	var n, v;
+	var result = {};
+	var k, k2, r1, r2;
+
+	while((k = buffer.indexOf("<!--")) != -1)
+	{
+		k2 = buffer.indexOf("-->", 4);
+		if(k2 >= 0)
+			buffer = buffer.substring(0, k) + buffer.substring(k2 + 3);
+		else
+			buffer = buffer.substring(0, k);
+	}
+	while((k = buffer.search(/<param/i)) != -1)
+	// １ループごとにタグの先頭を読む
+	{
+		buffer = buffer.substring(k);
+
+		// name属性を読む
+		k2 = buffer.search(/name=/i);
+		if(k2 == -1)
+		{
+			buffer = buffer.substring(k + 6);
+			continue;
+		}
+		// k2: 属性値開始位置
+		k2 += 5;
+		r1 = getAttributeValueIndex(buffer, k2);
+		// n: name属性値
+		n = buffer.substring(r1[0], r1[1]);
+
+		// value属性を読む
+		k2 = buffer.search(/value=/i);
+		if(k2 == -1)
+		{
+			buffer = buffer.substring(k + 6);
+			continue;
+		}
+		k2 += 6;
+		r2 = getAttributeValueIndex(buffer, k2);
+		// v: value属性値
+		v = buffer.substring(r2[0], r2[1]);
+
+		// このnameとvalueの組をresultに格納する
+		// ただし、同名のnameが含まれていると上書きされる
+		result[n] = v;
+
+		k = ((r1[1] > r2[1]) ? r1[1] : r2[1]);
+		buffer = buffer.substring(k);
+	}
+
+	var str = "";
+	var i;
+	for(i in result)
+	{
+		if(str) str += ",\n";
+		str += "\t\"" + i + "\": \"" + result[i] + "\"";
+	}
+	return str;
+}
+
+// 属性値の始めと終わりの位置を[off,end]の配列で返す
+function getAttributeValueIndex(str, index)
+{
+	var k1, k2;
+	// ダブルクォーテーションで囲まれている場合
+	if(str.charAt(index) == "\"")
+	{
+		k1 = index + 1;
+		k2 = str.indexOf("\"", k1);
+	}
+	// シングルクォーテーションで囲まれている場合
+	else if(str.charAt(index) == "'")
+	{
+		k1 = index + 1;
+		k2 = str.indexOf("'", k1);
+	}
+	// クォーテーションで囲まれていない場合
+	else
+	{
+		k1 = index;
+		// 半角スペースまたは'>'の文字までサーチ
+		k2 = str.indexOf(" ", k1);
+		if(k2 == -1)
+		{
+			k2 = str.indexOf(">", k1);
+		}
+	}
+
+	// エラー時
+	if(k2 == -1) throw null;
+	// 正常時
+	return [k1, k2];
+}
+
+</script>
+	
+</head>
+
+<body onload="init()">
+
+<h1>まさおソース変換器</h1>
+
+	<textarea id="input"></textarea>
+	<input type="button" value="クリア" onclick="srcInput.value='';" id="button_clear"><br>
+	<input type="button" value="↓↓↓変換↓↓↓" onclick="run()"><br>
+	<textarea id="output" readonly></textarea>
+
+<p>
+上のテキストエリアにHTMLソースを貼り付けて変換ボタンを押してください。<br>
+ソース内のparamタグを全て取得し、JS版まさおコンストラクションで使用できるソースが出力されます。
+</p>
+
+<p>
+※スクリプト読み込み文は各自でヘッダ内へ追加してください。<br>
+<br>
+FX版の例<br>
+<code>&lt;script type=&quot;text/javascript&quot; src=&quot;CanvasMasao.js&quot;&gt;&lt;/script&gt;</code><br>
+<br>
+2.8版の例<br>
+<code>&lt;script type=&quot;text/javascript&quot; src=&quot;CanvasMasao_v28.js&quot;&gt;&lt;/script&gt;</code>
+</p>
+
+<p>
+applet要素を使用すると、環境によってはJavaコンソールが表示されたり、Javaの警告ウィンドウが表示されたりします。変換したソースを使用すると、applet要素を使用しなくなるため、これらの表示がなくなります。<br>
+また、「タグを読み取る」という動作を省略するため、起動を速くすることができます。
+</p>
+
+</body>
+
+</html>

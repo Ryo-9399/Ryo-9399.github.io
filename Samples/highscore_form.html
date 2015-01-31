@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>まさおコンストラクション　サンプル</title>
+<script type="text/javascript" src="../Outputs/CanvasMasao.js" charset="UTF-8"></script>
+<script type="text/javascript">
+CanvasMasao.Game.replace("masao_testplay", {
+	highscoreCallback : (function (){
+		var score = 0;
+		window.addEventListener("load",
+			function (){
+				document.f.addEventListener("submit",
+					function (e){
+						e.stopImmediatePropagation();
+						document.f.score.value = score;
+					}
+				);
+			}
+		);
+		return function (s){
+			score = s;
+			document.f.score_display.value = s;
+		};
+	})()
+});
+</script>
+</head>
+
+<body>
+
+<div id="masao_testplay">
+<param name="map0-0" value="............................................................">
+<param name="map0-1" value="............................................................">
+<param name="map0-2" value="............................................................">
+<param name="map0-3" value="............................................................">
+<param name="map0-4" value="............................................................">
+<param name="map0-5" value="............................................................">
+<param name="map0-6" value="............................................................">
+<param name="map0-7" value="............................................................">
+<param name="map0-8" value="............................................................">
+<param name="map0-9" value="............................................................">
+<param name="map0-10" value="............................................................">
+<param name="map0-11" value="............................................................">
+<param name="map0-12" value="............................................................">
+<param name="map0-13" value="............................................................">
+<param name="map0-14" value="............................................................">
+<param name="map0-15" value="............................................................">
+<param name="map0-16" value="............................................................">
+<param name="map0-17" value="............................................................">
+<param name="map0-18" value="............................................................">
+<param name="map0-19" value=".............bbbb...........................................">
+<param name="map0-20" value="feeeeeeeeeeeefx8b...........................................">
+<param name="map0-21" value="e..............fb...........................................">
+<param name="map0-22" value="e.....A...w....e............................................">
+<param name="map0-23" value="e..dddddddddd..e............................................">
+<param name="map0-24" value="e....999999....e............................................">
+<param name="map0-25" value="e....999999....e............................................">
+<param name="map0-26" value="e....99dd99....e............................................">
+<param name="map0-27" value="e....99dd99....e............................................">
+<param name="map0-28" value="egggggggggggggge............................................">
+<param name="map0-29" value="egggFggvvggFggge............................................">
+<param name="map1-0" value="............................................................">
+<param name="map1-1" value="............................................................">
+<param name="map1-2" value="............................................................">
+<param name="map1-3" value="............................................................">
+<param name="map1-4" value="............................................................">
+<param name="map1-5" value="............................................................">
+<param name="map1-6" value="............................................................">
+<param name="map1-7" value="............................................................">
+<param name="map1-8" value="............................................................">
+<param name="map1-9" value="............................................................">
+<param name="map1-10" value="............................................................">
+<param name="map1-11" value="............................................................">
+<param name="map1-12" value="............................................................">
+<param name="map1-13" value="............................................................">
+<param name="map1-14" value="............................................................">
+<param name="map1-15" value="............................................................">
+<param name="map1-16" value="............................................................">
+<param name="map1-17" value="............................................................">
+<param name="map1-18" value="............................................................">
+<param name="map1-19" value="............................................................">
+<param name="map1-20" value="............................................................">
+<param name="map1-21" value="............................................................">
+<param name="map1-22" value="............................................................">
+<param name="map1-23" value="............................................................">
+<param name="map1-24" value="............................................................">
+<param name="map1-25" value="............................................................">
+<param name="map1-26" value="............................................................">
+<param name="map1-27" value="............................................................">
+<param name="map1-28" value="............................................................">
+<param name="map1-29" value="............................................................">
+<param name="map2-0" value="............................................................">
+<param name="map2-1" value="............................................................">
+<param name="map2-2" value="............................................................">
+<param name="map2-3" value="............................................................">
+<param name="map2-4" value="............................................................">
+<param name="map2-5" value="............................................................">
+<param name="map2-6" value="............................................................">
+<param name="map2-7" value="............................................................">
+<param name="map2-8" value="............................................................">
+<param name="map2-9" value="............................................................">
+<param name="map2-10" value="............................................................">
+<param name="map2-11" value="............................................................">
+<param name="map2-12" value="............................................................">
+<param name="map2-13" value="............................................................">
+<param name="map2-14" value="............................................................">
+<param name="map2-15" value="............................................................">
+<param name="map2-16" value="............................................................">
+<param name="map2-17" value="............................................................">
+<param name="map2-18" value="............................................................">
+<param name="map2-19" value="............................................................">
+<param name="map2-20" value="............................................................">
+<param name="map2-21" value="............................................................">
+<param name="map2-22" value="............................................................">
+<param name="map2-23" value="............................................................">
+<param name="map2-24" value="............................................................">
+<param name="map2-25" value="............................................................">
+<param name="map2-26" value="............................................................">
+<param name="map2-27" value="............................................................">
+<param name="map2-28" value="............................................................">
+<param name="map2-29" value="............................................................">
+<param name="stage_max" value="1">
+<param name="stage_kaishi" value="1">
+<param name="jibun_left_shoki" value="1">
+<param name="score_1up_1" value="500">
+<param name="score_1up_2" value="1000">
+<param name="stage_select" value="1">
+<param name="url1" value="http://www.yahoo.co.jp/">
+<param name="url2" value="http://www.yahoo.co.jp/">
+<param name="url3" value="http://www.yahoo.co.jp/">
+<param name="url4" value="http://www.t3.rim.or.jp/~naoto/naoto.html">
+<param name="dokan_mode" value="2">
+<param name="game_speed" value="70">
+<param name="pause_switch" value="1">
+<param name="time_max" value="0">
+<param name="scroll_mode" value="1">
+<param name="scroll_mode_s" value="1">
+<param name="scroll_mode_t" value="1">
+<param name="scroll_mode_f" value="1">
+<param name="scroll_area" value="2">
+<param name="view_move_type" value="1">
+<param name="suberuyuka_hkf" value="1">
+<param name="clear_type" value="1">
+<param name="easy_mode" value="1">
+<param name="j_tail_type" value="1">
+<param name="j_tail_hf" value="2">
+<param name="j_fire_mkf" value="1">
+<param name="grenade_type" value="1">
+<param name="j_tokugi" value="17">
+<param name="j_fire_equip" value="1">
+<param name="j_fire_type" value="1">
+<param name="j_enemy_press" value="1">
+<param name="j_add_tokugi" value="25">
+<param name="j_add_tokugi2" value="7">
+<param name="j_add_tokugi3" value="4">
+<param name="j_add_tokugi4" value="6">
+<param name="dengeki_mkf" value="1">
+<param name="yachamo_kf" value="1">
+<param name="airms_kf" value="1">
+<param name="mizutaro_attack" value="1">
+<param name="poppie_attack" value="1">
+<param name="mariri_attack" value="1">
+<param name="chikorin_attack" value="5">
+<param name="taiking_attack" value="1">
+<param name="kuragesso_attack" value="1">
+<param name="boss_type" value="1">
+<param name="boss2_type" value="1">
+<param name="boss3_type" value="1">
+<param name="boss_destroy_type" value="1">
+<param name="boss_hp_max" value="20">
+<param name="j_tail_ap_boss" value="4">
+<param name="boss_name" value="グラーダ">
+<param name="boss2_name" value="カイオール">
+<param name="boss3_name" value="センクウザ">
+<param name="ugokuyuka1_type" value="1">
+<param name="ugokuyuka2_type" value="1">
+<param name="ugokuyuka3_type" value="1">
+<param name="firebar1_type" value="1">
+<param name="firebar2_type" value="1">
+<param name="dossunsun_type" value="1">
+<param name="coin1_type" value="1">
+<param name="coin3_type" value="1">
+<param name="dokan1_type" value="1">
+<param name="dokan2_type" value="56">
+<param name="dokan3_type" value="44">
+<param name="dokan4_type" value="67">
+<param name="door_score" value="300">
+<param name="hitokoto1_name" value="浩二">
+<param name="hitokoto1-1" value="今日は、いい天気だなあ、なんてね。">
+<param name="hitokoto1-2" value="プレイ画面でも、こんなセリフを、">
+<param name="hitokoto1-3" value="入れられるように、なったんだ。">
+<param name="hitokoto2_name" value="お姫様">
+<param name="hitokoto2-1" value="ついに、ここまで来ましたね。">
+<param name="hitokoto2-2" value="ゆうきの証、ミレニアム人面星が、">
+<param name="hitokoto2-3" value="あなたを、待っていますよ。">
+<param name="hitokoto3_name" value="ザトシ">
+<param name="hitokoto3-1" value="オレは、世界一になる男だ。">
+<param name="hitokoto3-2" value="ぜったい、なってやるーー。">
+<param name="hitokoto3-3" value="0">
+<param name="hitokoto4_name" value="クリス">
+<param name="hitokoto4-1" value="あたし、クリス。ペットのピカチーが、">
+<param name="hitokoto4-2" value="どこかに行っちゃったの。">
+<param name="hitokoto4-3" value="こまったわね、ぐすん。">
+<param name="shop_name" value="癒し系(?)姉さん">
+<param name="serifu5-1" value="狩りお疲れさまです">
+<param name="serifu5-2" value="スコア５０点と引き換えに">
+<param name="serifu5-3" value="ＨＰを１回復します">
+<param name="serifu8-1" value="本日の営業は、終了いたしました。">
+<param name="serifu8-2" value="またのご来店を、">
+<param name="serifu8-3" value="こころより、お待ちしております。">
+<param name="shop_serifu1" value="決定">
+<param name="shop_serifu2" value="してよろしいですか？">
+<param name="shop_serifu3" value="はい">
+<param name="shop_serifu4" value="いいえ">
+<param name="shop_serifu5" value="しました">
+<param name="shop_serifu6" value="得点が足りません。">
+<param name="shop_item_name1" value="グレネード３発">
+<param name="shop_item_name2" value="ジェット">
+<param name="shop_item_name3" value="ドリル">
+<param name="shop_item_name4" value="ヘルメット">
+<param name="shop_item_name5" value="しっぽ">
+<param name="shop_item_name6" value="バリア">
+<param name="shop_item_name7" value="ファイヤーボール">
+<param name="shop_item_name8" value="回復">
+<param name="shop_item_name9" value="強制クリア">
+<param name="shop_item_teika1" value="0">
+<param name="shop_item_teika2" value="0">
+<param name="shop_item_teika3" value="0">
+<param name="shop_item_teika4" value="0">
+<param name="shop_item_teika5" value="0">
+<param name="shop_item_teika6" value="0">
+<param name="shop_item_teika7" value="0">
+<param name="shop_item_teika8" value="50">
+<param name="shop_item_teika9" value="999999999">
+<param name="fs_name" value="ファイヤーボールセレクトの人">
+<param name="serifu7-1" value="好きなファイヤーボールを、３種類から">
+<param name="serifu7-2" value="選んで下さい。私はサービスが良いので、">
+<param name="serifu7-3" value="何度でも選べますよ。">
+<param name="fs_serifu1" value="どのファイヤーボールにしますか？">
+<param name="fs_item_name1" value="バウンド">
+<param name="fs_item_name2" value="ストレート">
+<param name="fs_item_name3" value="ダブル">
+<param name="fs_serifu2" value="を装備しました。">
+<param name="serifu_key1_on_name" value="お姫様">
+<param name="serifu_key1_on-1" value="ここから先へ進むには、">
+<param name="serifu_key1_on-2" value="３つのＫＥＹ１が必要です。">
+<param name="serifu_key1_on-3" value="この世界のどこかに、あるはず。">
+<param name="serifu_key1_on-4" value="ＫＥＹ１を３つ、わたしますか？">
+<param name="serifu_key1_on-5" value="はい">
+<param name="serifu_key1_on-6" value="いいえ">
+<param name="serifu_key1_on-7" value="ＫＥＹ１を３つ、持っていません。">
+<param name="serifu_key1_on-8" value="先へ進む道が、開けました。">
+<param name="serifu_key1_on-9" value="勇者殿、">
+<param name="serifu_key1_on-10" value="お気を付けて。">
+<param name="key1_on_count" value="3">
+<param name="serifu_key2_on_name" value="ザトシ">
+<param name="serifu_key2_on-1" value="３つのＫＥＹ２がないと、">
+<param name="serifu_key2_on-2" value="ここから先へは進めないぜ。">
+<param name="serifu_key2_on-3" value="どこかで見つ付けてくれ。">
+<param name="serifu_key2_on-4" value="ＫＥＹ２を３つ、わたしますか？">
+<param name="serifu_key2_on-5" value="はい">
+<param name="serifu_key2_on-6" value="いいえ">
+<param name="serifu_key2_on-7" value="ＫＥＹ２を３つ、持っていません。">
+<param name="serifu_key2_on-8" value="３つのＫＥＹ２、受け取ったぜ。">
+<param name="serifu_key2_on-9" value="これで、先へ進めるようになったな。">
+<param name="serifu_key2_on-10" value="0">
+<param name="key2_on_count" value="3">
+<param name="serifu_grenade_shop_name" value="クリス">
+<param name="serifu_grenade_shop-1" value="グレネード１発を、">
+<param name="serifu_grenade_shop-2" value="２０点で売りますよ。">
+<param name="serifu_grenade_shop-3" value="0">
+<param name="serifu_grenade_shop-4" value="何発にしますか？">
+<param name="serifu_grenade_shop-5" value="得点が、足りません。">
+<param name="serifu_grenade_shop-6" value="グレネードを手に入れた。">
+<param name="grenade_shop_score" value="20">
+<param name="filename_mapchip" value="mapchip.png">
+<param name="filename_haikei" value="haikei.png">
+<param name="filename_haikei2" value="haikei.gif">
+<param name="filename_haikei3" value="haikei.gif">
+<param name="filename_haikei4" value="haikei.gif">
+<param name="filename_title" value="title.gif">
+<param name="filename_ending" value="ending.gif">
+<param name="filename_gameover" value="gameover.gif">
+<param name="filename_pattern" value="pattern.gif">
+<param name="filename_chizu" value="chizu.gif">
+<param name="filename_second_haikei" value="haikei_second.gif">
+<param name="filename_second_haikei2" value="haikei_second.gif">
+<param name="filename_second_haikei3" value="haikei_second.gif">
+<param name="filename_second_haikei4" value="haikei_second.gif">
+<param name="score_v" value="1">
+<param name="moji_score" value="SCORE">
+<param name="moji_highscore" value="HIGHSCORE">
+<param name="moji_time" value="TIME">
+<param name="moji_jet" value="JET">
+<param name="moji_grenade" value="GRENADE">
+<param name="moji_left" value="LEFT">
+<param name="moji_size" value="14">
+<param name="now_loading" value="Now Loading...">
+<param name="backcolor_red" value="102">
+<param name="backcolor_green" value="0">
+<param name="backcolor_blue" value="0">
+<param name="backcolor_red_s" value="0">
+<param name="backcolor_green_s" value="0">
+<param name="backcolor_blue_s" value="0">
+<param name="backcolor_red_t" value="0">
+<param name="backcolor_green_t" value="255">
+<param name="backcolor_blue_t" value="255">
+<param name="backcolor_red_f" value="192">
+<param name="backcolor_green_f" value="48">
+<param name="backcolor_blue_f" value="48">
+<param name="kaishi_red" value="0">
+<param name="kaishi_green" value="0">
+<param name="kaishi_blue" value="0">
+<param name="scorecolor_red" value="63">
+<param name="scorecolor_green" value="225">
+<param name="scorecolor_blue" value="225">
+<param name="grenade_red1" value="255">
+<param name="grenade_green1" value="255">
+<param name="grenade_blue1" value="255">
+<param name="grenade_red2" value="255">
+<param name="grenade_green2" value="255">
+<param name="grenade_blue2" value="0">
+<param name="mizunohadou_red" value="0">
+<param name="mizunohadou_green" value="31">
+<param name="mizunohadou_blue" value="255">
+<param name="firebar_red1" value="255">
+<param name="firebar_green1" value="0">
+<param name="firebar_blue1" value="0">
+<param name="firebar_red2" value="255">
+<param name="firebar_green2" value="191">
+<param name="firebar_blue2" value="0">
+<param name="layer_mode" value="2">
+<param name="gazou_scroll" value="1">
+<param name="gazou_scroll_speed_x" value="8">
+<param name="gazou_scroll_speed_y" value="-8">
+<param name="gazou_scroll_x" value="0">
+<param name="gazou_scroll_y" value="0">
+<param name="mcs_haikei_visible" value="0">
+<param name="control_parts_visible" value="1">
+<param name="second_gazou_visible" value="1">
+<param name="second_gazou_scroll" value="2">
+<param name="second_gazou_scroll_speed_x" value="8">
+<param name="second_gazou_scroll_speed_y" value="-8">
+<param name="second_gazou_scroll_x" value="0">
+<param name="second_gazou_scroll_y" value="0">
+<param name="second_gazou_priority" value="1">
+<param name="water_visible" value="1">
+<param name="water_clear_switch" value="1">
+<param name="water_clear_level" value="127">
+<param name="se_switch" value="1">
+<param name="se_filename" value="1">
+<param name="filename_se_start" value="item.au">
+<param name="filename_se_gameover" value="gameover.au">
+<param name="filename_se_clear" value="clear.au">
+<param name="filename_se_coin" value="coin.au">
+<param name="filename_se_get" value="get.au">
+<param name="filename_se_item" value="item.au">
+<param name="filename_se_jump" value="jump.au">
+<param name="filename_se_sjump" value="sjump.au">
+<param name="filename_se_kiki" value="kiki.au">
+<param name="filename_se_fumu" value="fumu.au">
+<param name="filename_se_tobasu" value="tobasu.au">
+<param name="filename_se_fireball" value="shot.au">
+<param name="filename_se_jet" value="mgan.au">
+<param name="filename_se_miss" value="dosun.au">
+<param name="filename_se_block" value="bakuhatu.au">
+<param name="filename_se_mizu" value="mizu.au">
+<param name="filename_se_dengeki" value="mgan.au">
+<param name="filename_se_happa" value="happa.au">
+<param name="filename_se_hinoko" value="mgan.au">
+<param name="filename_se_mizudeppo" value="happa.au">
+<param name="filename_se_bomb" value="shot.au">
+<param name="filename_se_dosun" value="dosun.au">
+<param name="filename_se_grounder" value="mgan.au">
+<param name="filename_se_kaiole" value="happa.au">
+<param name="filename_se_senkuuza" value="shot.au">
+<param name="filename_se_dokan" value="get.au">
+<param name="filename_se_chizugamen" value="get.au">
+<param name="fx_bgm_switch" value="0">
+<param name="fx_bgm_loop" value="0">
+<param name="filename_fx_bgm_stage1" value="stage1.mid">
+<param name="filename_fx_bgm_stage2" value="stage2.mid">
+<param name="filename_fx_bgm_stage3" value="stage3.mid">
+<param name="filename_fx_bgm_stage4" value="stage4.mid">
+<param name="filename_fx_bgm_boss" value="boss.mid">
+<param name="filename_fx_bgm_title" value="title.mid">
+<param name="filename_fx_bgm_ending" value="ending.mid">
+<param name="filename_fx_bgm_chizu" value="chizu.mid">
+<param name="audio_se_switch_wave" value="1">
+<param name="audio_se_switch_mp3" value="1">
+<param name="audio_se_switch_ogg" value="1">
+<param name="audio_bgm_switch_wave" value="2">
+<param name="audio_bgm_switch_mp3" value="1">
+<param name="audio_bgm_switch_ogg" value="1">
+<param name="mes1_name" value="お姫様">
+<param name="serifu1-1" value="勇者のヘルメットか、工事現場のドリル。">
+<param name="serifu1-2" value="どちらか１つを、あなたにプレゼントします。">
+<param name="serifu1-3" value="0">
+<param name="serifu2-1" value="あなたへのプレゼントは、１つだけです。">
+<param name="serifu2-2" value="欲張らないでくださいね。">
+<param name="serifu2-3" value="0">
+<param name="mes2_name" value="ザトシ">
+<param name="serifu3-1" value="アメリカ陸軍のグレネード３発と、">
+<param name="serifu3-2" value="鉄腕アトムのジェット。どちらが欲しい？">
+<param name="serifu3-3" value="0">
+<param name="serifu4-1" value="そのアイテムは、オレの宝物だったんだ。">
+<param name="serifu4-2" value="有効に使ってくれよな。">
+<param name="serifu4-3" value="0">
+<param name="setumei_name" value="キドはかせ">
+<param name="serifu9-1" value="よく来た。わしは、キドはかせ。">
+<param name="serifu9-2" value="アイテムの研究をしており、みんなから、">
+<param name="serifu9-3" value="アイテムはかせと呼ばれて、したわれておるよ。">
+<param name="setumei_menu1" value="なんでも、質問してくれたまえよ。">
+<param name="setumei_menu2" value="ファイヤーボール">
+<param name="setumei_menu3" value="バリア">
+<param name="setumei_menu4" value="ジェット">
+<param name="serifu10-1" value="黄色いチューリップのアイテムと言えば、">
+<param name="serifu10-2" value="そう、ファイヤーボールじゃな。はなれた">
+<param name="serifu10-3" value="敵を攻撃できるという、大変便利なものじゃ。">
+<param name="serifu11-1" value="ピンクのキノコのアイテムと言えば、そう、">
+<param name="serifu11-2" value="バリアじゃな。体当たりで敵を倒せるが、うっかり">
+<param name="serifu11-3" value="して、時間切れを忘れぬよう、注意が必要じゃ。">
+<param name="serifu12-1" value="ロケットの形のアイテムと言えば、そう、ジェット">
+<param name="serifu12-2" value="じゃな。空中で、スペースキーを押せば、さらに">
+<param name="serifu12-3" value="上昇できる。燃料切れには、気を付けるのじゃぞ。">
+</div>
+
+<form name="f" method="post">
+名前：<input type="text" name="name" style="width:120px">
+得点：<input type="text" name="score_display" style="width:50px" value="0" readonly><br>
+<input type="hidden" name="score" value="0">
+<input type="submit" value="送信（押しても意味ありません）">
+</form>
+
+<p>
+作品名：<br>
+「狩り」とは、相応の知識と能力と運が必要なサバイバルゲームである<br>
+作品の説明：<br>
+走る速さ・空中の加速度アップ、しっぽ標準装備。空中で下キーで急降下、地上で↑+Zで昇竜拳。マリリを狩りに行きましょう。HPが減ったら姉さんに頼んで回復してもらいましょう。３００点で扉オープン。
+</p>
+
+<p>
+作品の内容はさておき、ハイスコアを更新すると、得点欄の値が変化します。<br>
+replace()の第２引数に連想配列を渡すと、まさおの起動オプションを指定できます。<br>
+今回はhighscoreCallback（ハイスコアの変化をキャッチするイベントリスナ）を渡して、得点欄の値を変化させるようにしています。<br>
+詳しくは「!ReadMe.txt」をご覧下さい。
+</p>
+
+</body>
+
+</html>
