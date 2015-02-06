@@ -102,7 +102,13 @@ function convertSource(buffer)
 	for(i in result)
 	{
 		if(str) str += ",\n";
-		str += "\t\"" + i + "\": \"" + result[i] + "\"";
+		if(i.length == 6 && i.search(/map\d-\d/) >= 0 ||
+			i.length == 8 && i.search(/map\d-\d-(s|t|f)/) >= 0 ||
+			i.length == 8 && i.search(/layer\d-\d/) >= 0 ||
+			i.length == 10 && i.search(/layer\d-\d-(s|t|f)/) >= 0)
+			str += "\t\"" + i + "\" : \"" + result[i] + "\"";
+		else
+			str += "\t\"" + i + "\": \"" + result[i] + "\"";
 	}
 	return str;
 }
