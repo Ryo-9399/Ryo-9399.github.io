@@ -19,12 +19,12 @@
 <ul>
 
 <li>
-<a href="javascript:var s=document.createElement(&quot;script&quot;);s.src=&quot;http://Ryo-9399.github.io/mc_canvas/Outputs/CanvasMasao.js&quot;;s.onload=function(){CanvasMasao.Game.replaceAll()};document.body.appendChild(s);void 0;">
+<a href="javascript:var s=document.createElement(&quot;script&quot;);s.src=&quot;http://Ryo-9399.github.io/mc_canvas/Outputs/CanvasMasao.js&quot;;s.onload=function(){JSMasao.replaceAll()};document.body.appendChild(s);void 0;">
 FX版</a>
 </li>
 
 <li>
-<a href="javascript:var s=document.createElement(&quot;script&quot;);var s2;s.src=&quot;http://Ryo-9399.github.io/mc_canvas/Outputs/CanvasMasao.js&quot;;s.onload=function(){s2=document.createElement(&quot;script&quot;);s2.src=&quot;http://Ryo-9399.github.io/mc_canvas/Outputs/MasaoKani2.js&quot;;s2.onload=function(){CanvasMasao.Game.replaceAll()};document.body.appendChild(s2)};document.body.appendChild(s);void 0;">
+<a href="javascript:var s=document.createElement(&quot;script&quot;);var s2;s.src=&quot;http://Ryo-9399.github.io/mc_canvas/Outputs/CanvasMasao.js&quot;;s.onload=function(){s2=document.createElement(&quot;script&quot;);s2.src=&quot;http://Ryo-9399.github.io/mc_canvas/Outputs/MasaoKani2.js&quot;;s2.onload=function(){JSMasao.replaceAll()};document.body.appendChild(s2)};document.body.appendChild(s);void 0;">
 MasaoKani / MasaoKani2版</a>
 <small>FXの置き換えも可（ただし、余計なJSファイルも読み込みます。FXのみを置換する場合は上のブックマークレットを使用することを推奨します）</small>
 </li>
@@ -34,7 +34,44 @@ MasaoKani / MasaoKani2版</a>
 2.8版</a>
 </li>
 
+<!--<li>
+<a href="javascript:var s=document.createElement(&quot;script&quot;);s.src=&quot;http://Ryo-9399.github.io/mc_canvas/Outputs/CanvasMasao.js&quot;;s.onload=function(){JSMasao.replaceAll({userJSCallback:function(){var i;return function(g,m,x,y,a){if(!i){Object.defineProperty(window,&quot;Applet1&quot;,{get:function(){return a},set(){}});i=1}userJS(g,m,x,y);}}()})};document.body.appendChild(s);void 0;">
+MasaoJSS版</a>
+<small>正常に動作しない場合があります。</small>
+</li>-->
+
 </ul>
+
+<script type="text/javascript">
+function h(t){var r=document.createRange();r.selectNodeContents(t);window.getSelection().addRange(r)}function o(){window.getSelection().removeAllRanges()}
+</script>
+<style type="text/css">
+.e{overflow:scroll;white-space:pre;padding:10px;background:#eee}
+</style>
+
+<p>
+ブックマークレットを保存できない環境では、次の文字列をコピーしてアドレスバーに貼り付けると、ブックマークレットと同様の動作をします。（使用前には、&quot;javascript:&quot;で始まっているかお確かめください。）
+</p>
+
+<p>
+↓FX版
+</p>
+<div class="e" onmouseover="h(this)" onmouseout="o()">javascript:var s=document.createElement(&quot;script&quot;);s.src=&quot;http://Ryo-9399.github.io/mc_canvas/Outputs/CanvasMasao.js&quot;;s.onload=function(){JSMasao.replaceAll()};document.body.appendChild(s);void 0;</div>
+
+<p>
+↓MasaoKani / MasaoKani2版
+</p>
+<div class="e" onmouseover="h(this)" onmouseout="o()">javascript:var s=document.createElement(&quot;script&quot;);var s2;s.src=&quot;http://Ryo-9399.github.io/mc_canvas/Outputs/CanvasMasao.js&quot;;s.onload=function(){s2=document.createElement(&quot;script&quot;);s2.src=&quot;http://Ryo-9399.github.io/mc_canvas/Outputs/MasaoKani2.js&quot;;s2.onload=function(){JSMasao.replaceAll()};document.body.appendChild(s2)};document.body.appendChild(s);void 0;</div>
+
+<p>
+↓2.8版
+</p>
+<div class="e" onmouseover="h(this)" onmouseout="o()">javascript:var s=document.createElement(&quot;script&quot;);s.src=&quot;http://Ryo-9399.github.io/mc_canvas/Outputs/CanvasMasao_v28.js&quot;;s.onload=function(){CanvasMasao.Game.replaceAll()};document.body.appendChild(s);void 0;</div>
+
+<!--<p>
+MasaoJSS版
+</p>
+<div class="e" onmouseover="h(this)" onmouseout="o()">javascript:var s=document.createElement(&quot;script&quot;);s.src=&quot;http://Ryo-9399.github.io/mc_canvas/Outputs/CanvasMasao.js&quot;;s.onload=function(){JSMasao.replaceAll({userJSCallback:function(){var i;return function(g,m,x,y,a){if(!i){Object.defineProperty(window,&quot;Applet1&quot;,{get:function(){return a},set(){}});i=1}userJS(g,m,x,y);}}()})};document.body.appendChild(s);void 0;</div>-->
 
 </body>
 

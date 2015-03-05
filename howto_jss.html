@@ -137,6 +137,7 @@ del{
 	</ul>
 </li>
 <li><a href="#methods_of_offscreen">第１引数（Offscreen_g）で使用できるメソッド一覧</a></li>
+<li><a href="#informal_methods">非公式機能</a></li>
 </ul>
 </div>
 
@@ -855,6 +856,35 @@ X座標（<var>xa</var>）とY座標（<var>ya</var>）の配列から、頂点(
 <tr><td>setFont</td><td><var class="type_other">font</var></td><td class="type_boolean">真偽値</td><td>
 描画文字列のフォントをフォントオブジェクトで設定します。フォントオブジェクトは<code><var>ap</var>.newFont()</code>メソッドで取得してください。</td></tr>
 </table>
+
+</div>
+
+<div>
+<h2><a name="informal_methods">非公式機能</a></h2>
+
+<p>
+コールバック関数<var>userJSCallback</var>の第１引数（<var>g</var>）に渡されるオブジェクトには、原作では使用できなかった別の機能があります。<strong><code><var>g</var>._ctx</code>（アンダーバーctx）と記述すると、オフスクリーンに使用されているグラフィックスコンテキストを取得できます。</strong>これはHTML5 Canvasの機能で、グラフィックを直接制御することができます。<br>
+※以下に示すサンプルコードはコールバック関数内の一部で、第１仮引数の名前は<code>g</code>とします。<br>
+</p>
+
+<pre><code><span class="comment">// 使用例１　文字列を中央寄せにして描画する</span>
+
+<span class="most_important">var ctx = g._ctx;</span>  <span class="comment">// グラフィックスコンテキストを取得する</span>
+<span class="important">ctx.textAlign = &quot;center&quot;;</span>  <span class="comment">// 中央寄せに設定する</span>
+g.drawString(&quot;あいうえお&quot;, 256, 100);  // 試しに描画
+ctx.fillText(&quot;かきくけこさしすせそたちつてと&quot;, 256, 130);  // 試しに描画
+</code></pre>
+
+<pre><code><span class="comment">// 使用例２　複雑な図形を描画する</span>
+
+<span class="most_important">var ctx = g._ctx;</span>  <span class="comment">// グラフィックスコンテキストを取得する</span>
+<span class="important">ctx.beginPath();
+ctx.moveTo(100, 160);
+ctx.lineTo(120, 160);
+ctx.arc(160, 60, 20, Math.PI, 0, true);
+ctx.lineTo(200, 160);
+ctx.stroke();</span>
+</code></pre>
 
 </div>
 

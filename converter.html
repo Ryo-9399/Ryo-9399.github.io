@@ -103,9 +103,9 @@ function convertSource(buffer)
 	{
 		if(str) str += ",\n";
 		if(i.length == 6 && i.search(/map\d-\d/) >= 0 ||
-			i.length == 8 && i.search(/map\d-\d-(s|t|f)/) >= 0 ||
+			i.length == 8 && i.search(/map\d-\d-[stf]/) >= 0 ||
 			i.length == 8 && i.search(/layer\d-\d/) >= 0 ||
-			i.length == 10 && i.search(/layer\d-\d-(s|t|f)/) >= 0)
+			i.length == 10 && i.search(/layer\d-\d-[stf]/) >= 0)
 			str += "\t\"" + i + "\" : \"" + result[i] + "\"";
 		else
 			str += "\t\"" + i + "\": \"" + result[i] + "\"";
