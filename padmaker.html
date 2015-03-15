@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>仮想パッドメーカー</title>
+
+<style type="text/css">
+.check{
+	background:url(data:;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAA9SURBVDhP7dGhEQAwCENR6FxsD3vRimiud0HmGaK+wTOz7UNEYM0O7hoFeQryvB/sUVVhzfQUnoK85aDZBQpZCmvU9W9fAAAAAElFTkSuQmCC);
+}
+table.color{
+	border-collapse : collapse;
+	border : double gray 3px;
+	background : #FFFFFF
+}
+td{
+	text-align : center;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>仮想パッドメーカー</h1>
+
+<p>
+「仮想パッドの記述例が欲しい」というリクエストから作ってみました。非常に使いづらいです。<br>
+<a href="#howto">使用方法はこちら</a>
+</p>
+
+<div style="float:right">
+<input type="button" value="コード書き出し" id="btn_output_code"><br>
+<textarea id="output_code" style="width:500px;height:150px"></textarea>
+</div>
+<div>
+プレビュー：<br>
+<canvas width="500" height="200" id="can" class="check"></canvas>
+</div>
+
+<div id="setter" style="height:400px;overflow:scroll;clear:left"></div>
+
+<p>
+<input type="button" value="ボタン追加" id="btn_badd"><br><br>
+</p>
+
+<dl>
+<dt>背景の色</dt>
+<dd>
+<table class="color">
+	<colgroup span="3">
+	<colgroup span="1" class="check">
+	<tr>
+		<td>赤</td>
+		<td style="width:70px" id="style_back_r_n">0</td>
+		<td><input type="range" value="0" min="0" max="255" step="1" id="style_back_r"></td>
+		<td rowspan="4" style="width:200px" id="style_back"></td>
+	</tr>
+	<tr>
+		<td>緑</td>
+		<td style="width:70px" id="style_back_g_n">0</td>
+		<td><input type="range" value="0" min="0" max="255" step="1" id="style_back_g"></td>
+	</tr>
+	<tr>
+		<td>青</td>
+		<td style="width:70px" id="style_back_b_n">0</td>
+		<td><input type="range" value="0" min="0" max="255" step="1" id="style_back_b"></td>
+	</tr>
+	<tr>
+		<td>アルファ</td>
+		<td style="width:70px" id="style_back_a_n">0</td>
+		<td><input type="range" value="0" min="0" max="1" step="0.01" id="style_back_a"></td>
+	</tr>
+</table>
+</dd>
+<dt>ボタンの色</dt>
+<dd>
+<table class="color">
+	<colgroup span="3">
+	<colgroup span="1" class="check">
+	<tr>
+		<td>赤</td>
+		<td style="width:70px" id="style_button_r_n">0</td>
+		<td><input type="range" value="128" min="0" max="255" step="1" id="style_button_r"></td>
+		<td rowspan="4" style="width:200px" id="style_button"></td>
+	</tr>
+	<tr>
+		<td>緑</td>
+		<td style="width:70px" id="style_button_g_n">0</td>
+		<td><input type="range" value="128" min="0" max="255" step="1" id="style_button_g"></td>
+	</tr>
+	<tr>
+		<td>青</td>
+		<td style="width:70px" id="style_button_b_n">0</td>
+		<td><input type="range" value="128" min="0" max="255" step="1" id="style_button_b"></td>
+	</tr>
+	<tr>
+		<td>アルファ</td>
+		<td style="width:70px" id="style_button_a_n">0</td>
+		<td><input type="range" value="0.5" min="0" max="1" step="0.01" id="style_button_a"></td>
+	</tr>
+</table>
+</dd>
+<dt>押しているボタンの色</dt>
+<dd>
+<table class="color">
+	<colgroup span="3">
+	<colgroup span="1" class="check">
+	<tr>
+		<td>赤</td>
+		<td style="width:70px" id="style_active_r_n">0</td>
+		<td><input type="range" value="0" min="0" max="1" step="0.01" id="style_active_r"></td>
+		<td rowspan="4" style="width:200px" id="style_active"></td>
+	</tr>
+	<tr>
+		<td>緑</td>
+		<td style="width:70px" id="style_active_g_n">0</td>
+		<td><input type="range" value="0" min="0" max="255" step="1" id="style_active_g"></td>
+	</tr>
+	<tr>
+		<td>青</td>
+		<td style="width:70px" id="style_active_b_n">0</td>
+		<td><input type="range" value="0" min="0" max="255" step="1" id="style_active_b"></td>
+	</tr>
+	<tr>
+		<td>アルファ</td>
+		<td style="width:70px" id="style_active_a_n">0</td>
+		<td><input type="range" value="0.5" min="0" max="1" step="0.01" id="style_active_a"></td>
+	</tr>
+</table>
+</dd>
+<dt>ラベルの色</dt>
+<dd>
+<table class="color">
+	<colgroup span="3">
+	<colgroup span="1" class="check">
+	<tr>
+		<td>赤</td>
+		<td style="width:70px" id="style_text_r_n">0</td>
+		<td><input type="range" value="0" min="0" max="255" step="1" id="style_text_r"></td>
+		<td rowspan="4" style="width:200px" id="style_text"></td>
+	</tr>
+	<tr>
+		<td>緑</td>
+		<td style="width:70px" id="style_text_g_n">0</td>
+		<td><input type="range" value="0" min="0" max="255" step="1" id="style_text_g"></td>
+	</tr>
+	<tr>
+		<td>青</td>
+		<td style="width:70px" id="style_text_b_n">0</td>
+		<td><input type="range" value="0" min="0" max="255" step="1" id="style_text_b"></td>
+	</tr>
+	<tr>
+		<td>アルファ</td>
+		<td style="width:70px" id="style_text_a_n">0</td>
+		<td><input type="range" value="1" min="0" max="1" step="0.01" id="style_text_a"></td>
+	</tr>
+</table>
+</dd>
+<dt>境界線の色</dt>
+<dd>
+<table class="color">
+	<colgroup span="3">
+	<colgroup span="1" class="check">
+	<tr>
+		<td>赤</td>
+		<td style="width:70px" id="style_border_r_n">0</td>
+		<td><input type="range" value="0" min="0" max="255" step="1" id="style_border_r"></td>
+		<td rowspan="4" style="width:200px" id="style_border"></td>
+	</tr>
+	<tr>
+		<td>緑</td>
+		<td style="width:70px" id="style_border_g_n">0</td>
+		<td><input type="range" value="0" min="0" max="255" step="1" id="style_border_g"></td>
+	</tr>
+	<tr>
+		<td>青</td>
+		<td style="width:70px" id="style_border_b_n">0</td>
+		<td><input type="range" value="0" min="0" max="255" step="1" id="style_border_b"></td>
+	</tr>
+	<tr>
+		<td>アルファ</td>
+		<td style="width:70px" id="style_border_a_n">0</td>
+		<td><input type="range" value="1" min="0" max="1" step="0.01" id="style_border_a"></td>
+	</tr>
+</table>
+</dd>
+</dl>
+
+<script type="text/javascript" src="padmaker.js">
+</script>
+
+<h2><a name="howto">使用方法</a></h2>
+
+<ul>
+<li>
+	「ボタン追加」ボタンで仮想ボタンを追加します。
+	<ul>
+	<li>
+		ボタンの文字：ボタンに表示する文字列を編集します。
+	</li>
+	<li>
+		キーコード：ボタン押下時にゲームへ入力されるキーコードを設定します。
+	</li>
+	<li>
+		頂点の座標：ボタンの座標を設定します。「頂点を追加」ボタンで頂点を増やすことができ、「頂点を削除」ボタンで頂点を削除することができます。<br>
+		また、右の平行移動ボタンで座標を大まかにずらすことができます。
+	</li>
+	</ul>
+</li>
+<li>
+	背景の色など、スタイルを設定します。
+</li>
+</ul>
+
+<p>
+これらの設定が終わったら、右上の「コード書き出し」ボタンをクリックしてください。ボタン直下のテキストエリアに、ページのソース（スクリプト）に追加すべきコードが出力されます。
+</p>
+
+</body>
+
+</html>
