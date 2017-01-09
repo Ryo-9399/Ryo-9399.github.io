@@ -833,8 +833,9 @@ Xキーが押されているかを判定します。</td></tr>
 指定座標に画像オブジェクトの画像を描画します。</td></tr>
 <tr><td>drawImage</td><td><var class="type_other">image</var>, <var>x</var>, <var>y</var>, <var>width</var>, <var>height</var></td><td class="type_boolean">真偽値</td><td>
 指定矩形に収まるようにスケーリングして画像オブジェクトの画像を描画します。</td></tr>
-<tr><td>drawImage</td><td><var class="type_other">image</var>, <var>sourceX</var>, <var>sourceY</var>, <var>sourceWidth</var>, <var>sourceHeight</var>, <var>drawX</var>, <var>drawY</var>, <var>drawWidth</var>, <var>drawHeight</var></td><td class="type_boolean">真偽値</td><td>
-画像オブジェクトの画像の、指定された矩形(<var>sourceX</var>, <var>sourceY</var>, <var>sourceWidth</var>, <var>sourceHeight</var>)部分を抜き出した画像を、指定矩形(<var>drawX</var>, <var>drawY</var>, <var>drawWidth</var>, <var>drawHeight</var>)に収まるように描画します。</td></tr>
+<tr><td>drawImage</td><td><var class="type_other">image</var>, <var>sx1</var>, <var>sy1</var>, <var>sx2</var>, <var>sy2</var>, <var>dx1</var>, <var>dy1</var>, <var>dx2</var>, <var>dy2</var></td><td class="type_boolean">真偽値</td><td>
+画像オブジェクトの画像の、指定された矩形(<var>sx1</var>, <var>sy1</var> )-(<var>sx2</var>, <var>sy2</var>)部分を抜き出した画像を、指定矩形(<var>dx1</var>, <var>dy1</var>)-(<var>dx2</var>, <var>dy2</var>)に収まるように描画します。<br>
+<strong>(X, Y, 幅, 高さの指定ではなく、2点指定による矩形であることに注意してください。)</strong></td></tr>
 <tr><td>drawRect</td><td><var>x</var>, <var>y</var>, <var>width</var>, <var>height</var></td><td class="type_boolean">真偽値</td><td>
 塗りつぶさない矩形を現在の色で描画します。</td></tr>
 <tr><td>fillRect</td><td><var>x</var>, <var>y</var>, <var>width</var>, <var>height</var></td><td class="type_boolean">真偽値</td><td>
